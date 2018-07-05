@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+    {% include 'pewad/basecss.html' %} 
+    {% include 'pewad/basejs.html' %} 
+    {% block head %}{% endblock %}
+    <title>
+        {% if debug %}DEBUG {% endif %}{% block title %}{% endblock %}
+    </title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'pewad:index' %}">
+            <img src="{% static 'pewad/images/mm.jpg' %}" width="30" height="30" alt="" class="rounded">
+            PEWAD
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{% url 'pewad:contractlist' %}">Contracts</a>
+                <a class="nav-item nav-link" href="{% url 'pewad:projectlist' %}">Projects</a>
+                <a class="nav-item nav-link" href="{% url 'pewad:employeelist' %}">Employees</a>
+            </div>
+        </div>
+    </nav>
+    <div id="content" class="container-fluid">
+        {% if messages %}
+            <div class="row">
+                <div class="col">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% block body %} {% endblock %} 
+        {% block footer %} {% endblock %}
+    </div>
+</body>
+
+</html>

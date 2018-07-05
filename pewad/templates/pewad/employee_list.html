@@ -1,0 +1,34 @@
+{% extends 'pewad/list.html' %}
+
+{% block table-script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /* Build the table here; settings adjustments */
+            $("#list-table").tabulator({
+                //ajaxURL: "{% url 'pewad:loadtable' %}", // Load table data
+                persistentLayout: true, //Enable column layout persistence
+                height: 600, // set height of table to enable virtual DOM
+                layout: "fitDataFill", //fit columns to width of table (optional)
+                columns: [ //Define Table Columns
+                    { title: "ID", field: "id", sorter: "number" },
+                    { title: "Last", field: "empLast", sorter: "string" },
+                    { title: "First", field: "empFirst", sorter: "string" },
+                    { title: "Edit", sortable: false, value: "Edit", cellClick:function(e, cell){
+                        location.href=cell;
+                    }},
+                    { title: "assrec", field: "associatedRecord",}
+                ],
+                rowClick: function (e, id, data, row) { //trigger an alert message when the row is clicked
+                    location.href=id.row.data.id;
+                },
+            });
+
+            var tabledata = [{id:1, empFirst:"cory", empLast:"amico",},];
+            $("#list-table").tabulator("setData", tabledata);
+        });
+    </script>
+{% endblock table-script %}
+
+
+{% if all_items %}
+{% endif %}

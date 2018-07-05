@@ -1,0 +1,53 @@
+{% extends 'pewad/basehtml.html' %}
+{% load static %}
+
+{% block title %}Project: {{passedValue}}{% endblock title %}
+
+{% block body %}
+    <h1>Employee Task Breakdown</h1>
+    <hr>
+    <div id="example-table" class=""></div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var tableElem = $("#example-table");
+            var visibleHeight = window.innerHeight - (tableElem.position().top) - 15;
+
+            /* Build the main table here; settings adjustments */
+            tableElem.tabulator({
+                ajaxURL: "{% url 'pewad:loadtable' %}", // Load table data
+                persistentLayout: true, //Enable column layout persistence
+                height: visibleHeight, // set height of table to enable virtual DOM
+                layout: "fitDataFill", //fit columns to width of table (optional)
+                columns: [ //Define Table Columns
+                    { //Contract Column Group
+                        title: "Contract",
+                        columns: [
+                            { title: "Number", field: "conNum", sorter: "string" },
+                            { title: "Name", field: "conName", sorter: "string" },
+                        ],
+                    },
+                    { title: "Project", field: "proj", sorter: "string" },
+                    { // Lead Column Group
+                        title: "Lead",
+                        columns: [
+                            { title: "Last", field: "leadLast", sorter: "string" },
+                            { title: "First", field: "leadFirst", sorter: "string" },
+                        ],
+                    },
+                    { // Employee Column Group
+                        title: "Employee/Consultant",
+                        columns: [
+                            { title: "Last", field: "empLast", sorter: "string" },
+                            { title: "First", field: "empFirst", sorter: "string" },
+                        ],
+                    },
+                    { title: "WBS Hours", field: "hours", sorter: "number" },
+                    { title: "Work Assignment", field: "assig", sorter: "string", sortable: false },
+                ],
+                rowClick: function (e, id, data, row) { //trigger an alert message when the row is clicked
+                    alert("Row " + id + " Clicked!!!!");
+                },
+            });
+        });
+    </script>
+{% endblock body %}

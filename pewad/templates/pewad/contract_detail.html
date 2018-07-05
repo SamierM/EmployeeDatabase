@@ -1,0 +1,17 @@
+{% extends 'pewad/basehtml.html' %}
+
+{% block title %}Project: {{passedValue}}{% endblock title %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h3>Contract Details</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <strong>{{contract}}</strong> information
+        </div>
+    </div>
+{% endblock body %}

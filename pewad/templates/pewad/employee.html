@@ -1,0 +1,87 @@
+{% extends 'pewad/basehtml.html' %}
+{% load static %}
+
+{% block title %}Employee Record: {{employee.fname}} {{employee.lname}}{% endblock title %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h1>Employee Record: {{employee.fname}} {{employee.lname}}</h1>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h4>Associated Work Records</h4>
+        <hr>
+        <div id="record-table"></div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h4>Edit Employee</h4>
+        <hr>
+        <form action="{% url 'pewad:employeeupdate' employee.id %}" method="post" class="col-8">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="first">First Name</label>
+                    <input type="text" class="form-control" name="first" id="first" value="{{employee.fname}}" placeholder="First" />
+                </div>
+                <div class="form-group col-6">
+                    <label for="last">Last Name</label>
+                    <input type="text" class="form-control" name="last" id="last" value="{{employee.lname}}" placeholder="Last" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" name="email" id="email" value="{{employee.email}}" placeholder="Email" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </form>
+        <hr>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        /* Build the main table here; settings adjustments */
+        $("#record-table").tabulator({
+            ajaxURL: "{% url 'pewad:employeerecords' employee.id %}", // Load table data
+            height: false, // set height of table to enable virtual DOM
+            layout: "fitDataFill", //fit columns to width of table (optional)
+            layoutColumnsOnNewData:true,
+            columns: [ //Define Table Columns
+                { //Contract Column Group
+                    title: "Contract",
+                    columns: [
+                        { title: "Number", field: "conNum", sorter: "string" },
+                        { title: "Name", field: "conName", sorter: "string" },
+                    ],
+                },
+                { title: "Project", field: "proj", sorter: "string" },
+                { // Lead Column Group
+                    title: "Lead",
+                    columns: [
+                        { title: "Last", field: "leadLast", sorter: "string" },
+                        { title: "First", field: "leadFirst", sorter: "string" },
+                    ],
+                },
+                { // Employee Column Group
+                    title: "Employee/Consultant",
+                    columns: [
+                        { title: "Last", field: "empLast", sorter: "string" },
+                        { title: "First", field: "empFirst", sorter: "string" },
+                    ],
+                },
+                { title: "WBS Hours", field: "hours", sorter: "number" },
+                { title: "Work Assignment", field: "assig", sorter: "string", sortable: false },
+            ],
+            rowClick: function (e, id, data, row) {},
+        });
+    });
+</script>
+
+{% endblock body %}
