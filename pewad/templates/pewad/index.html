@@ -8,18 +8,23 @@
     <hr>
     <div id="example-table" class=""></div>
     <script type="text/javascript">
-        $(document).ready(function () {
-            var tableElem = $("#example-table");
-            var visibleHeight = window.innerHeight - (tableElem.position().top) - 15;
+        var tableElem = $("#example-table");
+        function getViewableHeight() {
+            /* Get the available screen height; minus the content above the table and 15 for bottom padding. */
+            return window.innerHeight - (tableElem.position().top) - 15;
+        }
 
+        $(document).ready(function () {
             /* Build the main table here; settings adjustments */
             tableElem.tabulator({
                 ajaxURL: "{% url 'pewad:loadtable' %}", // Load table data
-                persistentLayout: true, //Enable column layout persistence
-                height: visibleHeight, // set height of table to enable virtual DOM
-                layout: "fitDataFill", //fit columns to width of table (optional)
-                columns: [ //Define Table Columns
-                    { //Contract Column Group
+                persistentLayout: false, // Enable column layout persistence
+                height: getViewableHeight(), // Set height of table to enable virtual DOM
+                layout: "fitData", // Fit columns to width of table (optional)
+                //responsiveLayout: "collapse", // Auto hide/show columns on resize window
+                resizableRows: true,
+                columns: [ // Define Table Columns
+                    { // Contract Column Group
                         title: "Contract",
                         columns: [
                             { title: "Number", field: "conNum", sorter: "string" },
@@ -48,6 +53,11 @@
                     alert("Row " + id + " Clicked!!!!");
                 },
             });
+        });
+        $(window).resize(function () {
+            /* Upon window resize, redraw the table after setting the new window height */
+            tableElem.tabulator("setHeight", getViewableHeight());
+            tableElem.tabulator("redraw");
         });
     </script>
 {% endblock body %}

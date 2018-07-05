@@ -52,7 +52,6 @@
             ajaxURL: "{% url 'pewad:employeerecords' employee.id %}", // Load table data
             height: false, // set height of table to enable virtual DOM
             layout: "fitDataFill", //fit columns to width of table (optional)
-            layoutColumnsOnNewData:true,
             columns: [ //Define Table Columns
                 { //Contract Column Group
                     title: "Contract",
@@ -69,14 +68,7 @@
                         { title: "First", field: "leadFirst", sorter: "string" },
                     ],
                 },
-                { // Employee Column Group
-                    title: "Employee/Consultant",
-                    columns: [
-                        { title: "Last", field: "empLast", sorter: "string" },
-                        { title: "First", field: "empFirst", sorter: "string" },
-                    ],
-                },
-                { title: "WBS Hours", field: "hours", sorter: "number" },
+                { title: "WBS Hours", field: "hours", sorter: "number", bottomCalc: "sum" },
                 { title: "Work Assignment", field: "assig", sorter: "string", sortable: false },
             ],
             rowClick: function (e, id, data, row) {},
