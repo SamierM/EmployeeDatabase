@@ -1,0 +1,70 @@
+{% extends 'pewad/basehtml.html' %}
+{% load static %}
+
+{% block title %}Project Details: {{project.abbr}} - {{project.name}}{% endblock title %}
+
+{% block body %}
+<div class="row">
+    <div class="col">
+        <h2>Project Details: <strong>{{project.abbr}} - {{project.name}}</strong></h2>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h4>Associated Work Records</h4>
+        <hr>
+        <div id="record-table"></div>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h4>Edit Project</h4>
+        <hr>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Update" />
+        </form>
+        <hr>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        /* Build the main table here; settings adjustments */
+        $("#record-table").tabulator({
+            ajaxURL: "{% url 'pewad:projectrecords' project.id %}", // Load table data
+            clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
+            height: false, // set height of table to enable virtual DOM
+            layout: "fitDataFill", //fit columns to width of table (optional)
+            columns: [ //Define Table Columns
+                { // Contract Column Group
+                    title: "Contract",
+                    columns: [
+                        { title: "Number", field: "conNum", sorter: "string" },
+                        { title: "Name", field: "conName", sorter: "string" },
+                    ],
+                },
+                { // Lead Column Group
+                    title: "Lead",
+                    columns: [
+                        { title: "Last", field: "leadLast", sorter: "string" },
+                        { title: "First", field: "leadFirst", sorter: "string" },
+                    ],
+                },
+                { // Employee Column Group
+                    title: "Employee/Consultant",
+                    columns: [
+                        { title: "Last", field: "empLast", sorter: "string" },
+                        { title: "First", field: "empFirst", sorter: "string" },
+                    ],
+                },
+                { title: "WBS Hours", field: "hours", sorter: "number" },
+                { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter: "textarea" },
+            ],
+        });
+    });
+</script>
+
+{% endblock body %}

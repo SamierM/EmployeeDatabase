@@ -102,15 +102,38 @@ def contact_json_records(request, pk):
 # ------------------------------------------------------------
 
 
-def projList(request):
-    all = get_list_or_404(Project)
+def project_list(request):
+    """ Display list view showing all Projects """
 
-    return render(request, 'pewad/list.html', {'all_items': all, 'title': 'Project'})
+    return render(request, 'pewad/project_list.html', {'list_title': 'Project'})
 
 
-def projDetails(request, proj_id):
-    response = "you looking at project #%s"
-    return HttpResponse(response % proj_id)
+def project_json_table_data(request):
+    """ GET JSON data for all Projects list view """
+    projs = get_list_or_404(Project)
+    data = serialize('json', projs)
+
+    return HttpResponse(data, content_type="json")
+
+
+class ProjectUpdateView(SuccessMessageMixin, generic.UpdateView):
+    """ Display view for updating a Project """
+    model = Project
+    fields = '__all__'
+    template_name_suffix = '_update'
+    success_message = "Update successful."
+
+
+def project_json_records(request, pk):
+    """ Get the WorkRecords data in JSON for a Project """
+    records = WorkRecord.objects.filter(proj=pk)
+    data = workrecord_models_to_json(records)
+
+    return JsonResponse(data, safe=False)
+
+# ------------------------------------------------------------
+# -------------------- Email Stuffs --------------------------
+# ------------------------------------------------------------
 
 
 def emailEmployee(request, emp_id):
@@ -126,23 +149,6 @@ def emailEmployee(request, emp_id):
     #     fail_silently=False,
     # )
 
-
-class ListView(generic.ListView):
-    model = None
-    template_name = 'pewad/list.html'
-    context_object_name = 'all_items'
-
-
-class ProjectListView(ListView):
-    """ Generic display list view showing all Projects """
-
-    def get_queryset(self):
-        return Project.objects.order_by('name')
-
-
-class ProjectDetailView(generic.DetailView):
-    model = Project
-    template_name = 'pewad/project_detail.html'
 
 # ------------------------------------------------------------
 # -------------------- JSON helper functions -----------------
