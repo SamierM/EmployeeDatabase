@@ -7,6 +7,8 @@ from django.views import generic
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 from .models import Contract, Employee, Project, WorkRecord
 
@@ -136,19 +138,35 @@ def project_json_records(request, pk):
 # ------------------------------------------------------------
 
 
-def emailEmployee(request, emp_id):
-    # TODO fix or remove this
-    None
-    # records = WorkRecord.objects.filter(emp=emp_id)
+def create_email_message(work_records):
+    """ Creates a email body string from a template """
+    table_rows = ""
+    for rec in work_records:
+        rd = {'cont': rec.cont, 'proj': rec.proj.abbr,
+              'lead': rec.lead, 'hours': rec.hours, 'task': rec.task}
+        table_rows += render_to_string("email/tablerow.html", rd)
 
-    # send_email(
-    #     'Work Assignment',  # Subject line
-    #     '',  # Message body
-    #     EMAIL_SENDER,  # Sender
-    #     [],  # Recipient List
-    #     fail_silently=False,
-    # )
+    msgparams = {'name': work_records[0].emp, 'rows': table_rows}
+    return render_to_string("email/email.html", msgparams)
 
+
+def email_single_employee(request, pk):
+    """ Email an Employee's WorkRecords to the employee """
+    recip = get_object_or_404(Employee, pk=pk)
+
+    # TODO obviously this needs to be fixed
+    SENDER = 'camico@gblsys.com'
+    
+    records = WorkRecord.objects.filter(emp=pk).order_by('-hours')
+    msg = create_email_message(records)
+
+    return send_mail(
+        '%s Work Assignment' % recip.lname,  # Subject line
+        msg,  # Message body
+        SENDER,  # Sender
+        [recip.email],  # Recipient List
+        fail_silently=False,
+    )
 
 # ------------------------------------------------------------
 # -------------------- JSON helper functions -----------------

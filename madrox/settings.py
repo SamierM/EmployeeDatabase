@@ -72,6 +72,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'madrox.wsgi.application'
 
 
+# Email
+
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'admin@gblsys.com'
+EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_USE_TLS = True
+
+
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
