@@ -33,6 +33,9 @@ class Contract(models.Model):
     def __str__(self):
         return "{self.number} {self.name}".format(self=self)
 
+    def get_absolute_url(self):
+        return reverse('pewad:contract', kwargs={'pk': self.pk})
+
 
 class WorkRecord(models.Model):
     # Work Record (Tasking) database model

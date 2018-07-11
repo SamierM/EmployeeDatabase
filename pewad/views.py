@@ -60,6 +60,7 @@ def employee_json_records(request, emp_id):
     """ Get the WorkRecords data in JSON for an Employee """
     records = WorkRecord.objects.filter(emp=emp_id)
     data = workrecord_models_to_json(records)
+
     return JsonResponse(data, safe=False)
 
 
@@ -70,13 +71,31 @@ def employee_json_records(request, emp_id):
 def contract_list(request):
     """ Display list view showing all Contracts """
 
-    return render(request, 'pewad/contract_list.html', {'list_title': 'Contract'})
+    return render(request, 'pewad/contract_list.html', {'list_title': 'Contracts'})
 
 
-def contDetails(request, cont_id):
-    response = "you looking at contract #%s"
-    return HttpResponse(response % cont_id)
+def contract_json_table_data(request):
+    """ GET JSON data for all Contracts list view """
+    conts = get_list_or_404(Contract)
+    data = serialize('json', conts)
 
+    return HttpResponse(data, content_type="json")
+
+
+class ContractUpdateView(SuccessMessageMixin, generic.UpdateView):
+    """ Display view for updating a Contract """
+    model = Contract
+    fields = '__all__'
+    template_name_suffix = '_update'
+    success_message = "Update successful."
+
+
+def contact_json_records(request, pk):
+    """ Get the WorkRecords data in JSON for a Contact """
+    records = WorkRecord.objects.filter(cont=pk)
+    data = workrecord_models_to_json(records)
+
+    return JsonResponse(data, safe=False)
 
 # ------------------------------------------------------------
 # -------------------- Project Views -------------------------
@@ -112,18 +131,6 @@ class ListView(generic.ListView):
     model = None
     template_name = 'pewad/list.html'
     context_object_name = 'all_items'
-
-
-class ContractListView(ListView):
-    extra_context = {'list_title': 'Contract'}
-
-    def get_queryset(self):
-        return Contract.objects.order_by('number')
-
-
-class ContractDetailView(generic.DetailView):
-    model = Contract
-    template_name = 'pewad/contract_detail.html'
 
 
 class ProjectListView(ListView):

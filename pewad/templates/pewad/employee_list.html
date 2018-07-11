@@ -17,7 +17,7 @@
                     { title: "First", field: "fields.fname", sorter: "string" },
                     { title: "Email", field: "fields.email", sorter: "string" }
                 ],
-                rowClick: function (e, id, data, row) { //trigger an alert message when the row is clicked
+                rowClick: function (e, id) {
                     location.href = id.row.data.pk;
                 },
             });

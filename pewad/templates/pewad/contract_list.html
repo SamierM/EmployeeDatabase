@@ -5,22 +5,20 @@
         $(document).ready(function () {
             /* Build the table here; settings adjustments */
             $("#list-table").tabulator({
-                //ajaxURL: "{% url 'pewad:loadtable' %}", // Load table data
+                ajaxURL: "{% url 'pewad:contractlistdata' %}", // Load table data
                 persistentLayout: true, //Enable column layout persistence
+                clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
                 height: 600, // set height of table to enable virtual DOM
                 layout: "fitDataFill", //fit columns to width of table (optional)
                 columns: [ //Define Table Columns
-                    { title: "ID", field: "id", sorter: "number" },
-                    { title: "Name", field: "name", sorter: "string" },
-                    { title: "Number", field: "number", sorter: "number" },
+                    { title: "ID", field: "pk", sorter: "number" },
+                    { title: "Name", field: "fields.name", sorter: "string" },
+                    { title: "Number", field: "fields.number", sorter: "number" },
                 ],
-                rowClick: function (e, id, data, row) { //trigger an alert message when the row is clicked
-                    location.href = id.row.data.id;
+                rowClick: function (e, id) {
+                    location.href = id.row.data.pk;
                 },
             });
-
-            var tabledata = [{ id: 1, empFirst: "cory", empLast: "amico", },];
-            $("#list-table").tabulator("setData", tabledata);
         });
     </script>
 {% endblock table-script %}
