@@ -22,25 +22,10 @@
     <div class="col">
         <h4>Edit Employee</h4>
         <hr>
-        <form action="{% url 'pewad:employeeupdate' employee.id %}" method="post" class="col-8">
+        <form method="post">
             {% csrf_token %}
-            <div class="form-row">
-                <div class="form-group col-6">
-                    <label for="first">First Name</label>
-                    <input type="text" class="form-control" name="first" id="first" value="{{employee.fname}}" placeholder="First" />
-                </div>
-                <div class="form-group col-6">
-                    <label for="last">Last Name</label>
-                    <input type="text" class="form-control" name="last" id="last" value="{{employee.lname}}" placeholder="Last" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" name="email" id="email" value="{{employee.email}}" placeholder="Email" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
+            {{ form.as_p }}
+            <input type="submit" value="Update" />
         </form>
         <hr>
     </div>
@@ -50,6 +35,7 @@
         /* Build the main table here; settings adjustments */
         $("#record-table").tabulator({
             ajaxURL: "{% url 'pewad:employeerecords' employee.id %}", // Load table data
+            clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
             height: false, // set height of table to enable virtual DOM
             layout: "fitDataFill", //fit columns to width of table (optional)
             columns: [ //Define Table Columns
@@ -69,9 +55,8 @@
                     ],
                 },
                 { title: "WBS Hours", field: "hours", sorter: "number", bottomCalc: "sum" },
-                { title: "Work Assignment", field: "assig", sorter: "string", sortable: false },
+                { title: "Work Assignment", field: "assig", sortable: false, formatter: "textarea" },
             ],
-            rowClick: function (e, id, data, row) {},
         });
     });
 </script>
