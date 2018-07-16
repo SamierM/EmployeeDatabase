@@ -31,6 +31,18 @@ def index_json_table_data(request):
 
     return JsonResponse(data, safe=False)
 
+
+class WorkRecordUpdateView(SuccessMessageMixin, generic.UpdateView):
+    """ Display WorkRecord update form, for use inside a modal """
+    model = WorkRecord
+    fields = '__all__'
+    template_name_suffix = '_update'
+    success_message = "Update successful."
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+
 # ------------------------------------------------------------
 # -------------------- Employee Views ------------------------
 # ------------------------------------------------------------
@@ -156,7 +168,7 @@ def email_single_employee(request, pk):
 
     # TODO obviously this needs to be fixed
     SENDER = 'camico@gblsys.com'
-    
+
     records = WorkRecord.objects.filter(emp=pk).order_by('-hours')
     msg = create_email_message(records)
 
@@ -186,6 +198,7 @@ def make_json_workrecord(workrecord):
     """ Get a JSON object representation of a WorkRecord model """
     # TODO Unfortunatley need to do this manually... unless a better way is figured out
     return {
+        "pk": workrecord.pk,
         "conNum": workrecord.cont.number,
         "conName": workrecord.cont.name,
         "proj": workrecord.proj.abbr,
