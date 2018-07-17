@@ -30,6 +30,8 @@
         <hr>
     </div>
 </div>
+<div id="modal-container"></div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         /* Build the main table here; settings adjustments */
@@ -64,6 +66,14 @@
                 { title: "WBS Hours", field: "hours", sorter: "number" },
                 { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter: "textarea" },
             ],
+            rowClick: function (e, t) {
+                var url = "{% url 'pewad:workrecordupdate' 0 %}";
+                url = url.replace("0", t.row.data.pk);
+                $.get(url, function (result) {
+                    $('#modal-container').html(result);
+                    $('#wrModal').modal('show');
+                });
+            },
         });
     });
 </script>
