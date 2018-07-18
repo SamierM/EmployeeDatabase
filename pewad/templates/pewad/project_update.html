@@ -67,11 +67,12 @@
                 { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter: "textarea" },
             ],
             rowClick: function (e, t) {
+                // On row click, open a WorkRecord edit modal
                 var url = "{% url 'pewad:workrecordupdate' 0 %}";
                 url = url.replace("0", t.row.data.pk);
                 $.get(url, function (result) {
                     $('#modal-container').html(result);
-                    $('#wrModal').modal('show');
+                    $('#modal').modal('show');
                 });
             },
         });

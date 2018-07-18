@@ -24,6 +24,9 @@ class Project(models.Model):
     def __str__(self):
         return "{self.name} ({self.abbr})".format(self=self)
 
+    def get_absolute_url(self):
+        return reverse('pewad:project', kwargs={'pk': self.pk})
+
 
 class Contract(models.Model):
     # Contract database model

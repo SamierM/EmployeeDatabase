@@ -40,7 +40,7 @@
             clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
             height: false, // set height of table to enable virtual DOM
             layout: "fitDataFill", //fit columns to width of table (optional)
-            layoutColumnsOnNewData:true, // fixes row heights (see: textarea) on data load
+            layoutColumnsOnNewData: true, // fixes row heights (see: textarea) on data load
             columns: [ //Define Table Columns
                 { title: "Project", field: "proj", sorter: "string" },
                 { // Lead Column Group
@@ -61,11 +61,12 @@
                 { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter: "textarea" },
             ],
             rowClick: function (e, t) {
+                // On row click, open a WorkRecord edit modal
                 var url = "{% url 'pewad:workrecordupdate' 0 %}";
                 url = url.replace("0", t.row.data.pk);
                 $.get(url, function (result) {
                     $('#modal-container').html(result);
-                    $('#wrModal').modal('show');
+                    $('#modal').modal('show');
                 });
             },
         });

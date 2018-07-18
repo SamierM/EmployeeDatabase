@@ -1,5 +1,6 @@
 {% extends 'pewad/basehtml.html' %}
 {% load static %}
+{% load icons %}
 
 {% block title %}Employee Record: {{employee.fname}} {{employee.lname}}{% endblock title %}
 
@@ -13,6 +14,13 @@
 <div class="row">
     <div class="col">
         <h4>Associated Work Records</h4>
+    </div>
+    <div class="col">
+        <button id="createbutton" type="button" class="btn btn-sm btn-success pull-right">{% icon 'plus-square-o' %} New Record</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
         <hr>
         <div id="record-table"></div>
         <hr>
@@ -61,14 +69,23 @@
                 { title: "Work Assignment", field: "assig", sortable: false, formatter: "textarea" },
             ],
             rowClick: function (e, t) {
+                // On row click, open a WorkRecord edit modal
                 var url = "{% url 'pewad:workrecordupdate' 0 %}";
                 url = url.replace("0", t.row.data.pk);
-                $.get(url, function (result) {
-                    $('#modal-container').html(result);
-                    $('#wrModal').modal('show');
-                });
+                loadAndOpenModal(url);
             },
         });
+    });
+
+    function loadAndOpenModal(url) {
+        $.get(url, function (result) {
+            $('#modal-container').html(result);
+            $('#modal').modal('show');
+        });
+    }
+
+    $("#createbutton").click( function() {
+        loadAndOpenModal("{% url 'pewad:workrecordcreate' %}");
     });
 </script>
 
