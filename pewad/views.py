@@ -43,6 +43,18 @@ class WorkRecordUpdateView(SuccessMessageMixin, generic.UpdateView):
         return self.request.META.get('HTTP_REFERER')
 
 
+class WorkRecordCreate(SuccessMessageMixin, generic.CreateView):
+    """ Create a new WorkRecord, via modal """
+    model = WorkRecord
+    fields = '__all__'
+    template_name_suffix = '_create_form'
+
+    def get_success_message(self, cleaned_data):
+        return "Work Record \"%s\" was added successfully." % self.object
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
 # ------------------------------------------------------------
 # -------------------- Employee Views ------------------------
 # ------------------------------------------------------------

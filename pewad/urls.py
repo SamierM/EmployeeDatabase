@@ -8,7 +8,10 @@ urlpatterns = [
     # ex: /pewad/data -- List of all Work Records (table data call)
     path('data', views.index_json_table_data, name='loadtable'),
     # ex: /pewad/wr/12 -- Update a WorkRecord
-    path('wr/<int:pk>/', views.WorkRecordUpdateView.as_view(), name='workrecordupdate'),
+    path('wr/<int:pk>/', views.WorkRecordUpdateView.as_view(),
+         name='workrecordupdate'),
+    # ex: /pewad/wr/create -- Create a new WorkRecord
+    path('wr/create', views.WorkRecordCreate.as_view(), name='workrecordcreate'),
 
     # ex: /pewad/employee/list -- List of all employees
     path('employee/list', views.employee_list, name='employeelist'),
