@@ -60,6 +60,19 @@ class WorkRecordCreate(SuccessMessageMixin, generic.CreateView):
 # ------------------------------------------------------------
 
 
+class EmployeeCreate(SuccessMessageMixin, generic.CreateView):
+    """ Create a new Employee """
+    model = Employee
+    fields = '__all__'
+    template_name_suffix = '_create_form'
+
+    def get_success_message(self, cleaned_data):
+        return "Employee \"%s\" was added successfully." % self.object
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+
 def employee_list(request):
     """ Display list view showing all Employees """
 
@@ -169,8 +182,8 @@ def create_email_message(work_records):
         rd = {'cont': rec.cont, 'proj': rec.proj.abbr,
               'lead': rec.lead, 'hours': rec.hours, 'task': rec.task}
         table_rows += render_to_string("email/tablerow.html", rd)
-
     msgparams = {'name': work_records[0].emp, 'rows': table_rows}
+
     return render_to_string("email/email.html", msgparams)
 
 

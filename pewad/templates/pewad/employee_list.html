@@ -1,5 +1,9 @@
 {% extends 'pewad/list.html' %}
+{% load icons %}
 
+{% block extra-buttons %}
+    <button id="createbutton" type="button" class="btn btn-sm btn-success pull-right" title="Create New Employee">{% icon 'plus-square-o' %} Create New Employee</button>
+{% endblock extra-buttons %}
 {% block table-script %}
     <script type="text/javascript">
         $(document).ready(function () {
@@ -18,6 +22,14 @@
                 rowClick: function (e, id) {
                     location.href = id.row.data.pk;
                 },
+            });
+        });
+
+        $("#createbutton").click( function() {
+            var url = "{% url 'pewad:employeecreate' %}"
+            $.get(url, function (result) {
+                $('#modal-container').html(result);
+                $('#modal').modal('show');
             });
         });
     </script>
