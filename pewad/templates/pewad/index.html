@@ -6,13 +6,11 @@
 {% block body %}
     <h1>Employee Task Breakdown</h1>
     <hr>
-    <div id="example-table" class=""></div>
+    <div id="example-table"></div>
+    <div id="modal-container"></div>
+
     <script type="text/javascript">
         var tableElem = $("#example-table");
-        function getViewableHeight() {
-            /* Get the available screen height; minus the content above the table and 15 for bottom padding. */
-            return window.innerHeight - (tableElem.position().top) - 15;
-        }
 
         $(document).ready(function () {
             /* Build the main table here; settings adjustments */
@@ -50,15 +48,27 @@
                     { title: "WBS Hours", field: "hours", sorter: "number" },
                     { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter:"textarea"},
                 ],
-                rowClick: function (e, id, data, row) { //trigger an alert message when the row is clicked
-                    alert("Row " + id + " Clicked!!!!");
+                rowClick: function (e, t) { //open record edit modal when the row is clicked
+                    var url = "{% url 'pewad:workrecordupdate' 0 %}";
+                    url = url.replace("0", t.row.data.pk);
+                    $.get(url, function (result) {
+                        $('#modal-container').html(result);
+                        $('#modal').modal('show');
+                    });
                 },
             });
         });
+
+        function getViewableHeight() {
+            /* Get the available screen height; minus the content above the table and 15 for bottom padding. */
+            return window.innerHeight - (tableElem.position().top) - 15;
+        }
+        
         $(window).resize(function () {
             /* Upon window resize, redraw the table after setting the new window height */
             tableElem.tabulator("setHeight", getViewableHeight());
             tableElem.tabulator("redraw");
         });
+
     </script>
 {% endblock body %}

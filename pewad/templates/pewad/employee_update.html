@@ -16,7 +16,9 @@
         <h4>Associated Work Records</h4>
     </div>
     <div class="col">
-        <button id="createbutton" type="button" class="btn btn-sm btn-success pull-right">{% icon 'plus-square-o' %} New Record</button>
+        <a href="#" role="button" class="btn btn-sm btn-info pull-right" title="Email Records to {{employee.fname}}">{% icon 'envelope' %} Email</a>
+        <button id="clipboardbutton" type="button" class="btn btn-sm btn-secondary pull-right" title="Copy to Clipboard">{% icon 'clipboard' %} Copy</button>
+        <button id="createbutton" type="button" class="btn btn-sm btn-success pull-right" title="Create New Record">{% icon 'plus-square-o' %} New</button>
     </div>
 </div>
 <div class="row">
@@ -78,6 +80,7 @@
     });
 
     function loadAndOpenModal(url) {
+        // GET request for a form and launches it in a modal
         $.get(url, function (result) {
             $('#modal-container').html(result);
             $('#modal').modal('show');
@@ -87,6 +90,11 @@
     $("#createbutton").click( function() {
         loadAndOpenModal("{% url 'pewad:workrecordcreate' %}");
     });
+
+    $("#clipboardbutton").click( function() {
+        $("#record-table").tabulator("copyToClipboard"); //copy the table to the clipboard and include the column headers
+    });
+
 </script>
 
 {% endblock body %}
