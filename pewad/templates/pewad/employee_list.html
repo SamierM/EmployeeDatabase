@@ -1,8 +1,10 @@
 {% extends 'pewad/list.html' %}
-{% load icons %}
 
 {% block extra-buttons %}
-    <button id="createbutton" type="button" class="btn btn-sm btn-success pull-right" title="Create New Employee">{% icon 'plus-square-o' %} Create New Employee</button>
+    <a id="createbutton" class="waves-effect waves-light btn-small" title="Create New Employee">
+        <i class="material-icons left">person_add</i>Create New Employee</a>
+        <a id="emailallbutton" class="waves-effect waves-light btn-small" title="Email All Employees">
+                <i class="material-icons left">email</i>Email All Employees</a>        
 {% endblock extra-buttons %}
 {% block table-script %}
     <script type="text/javascript">
@@ -27,10 +29,11 @@
 
         $("#createbutton").click( function() {
             var url = "{% url 'pewad:employeecreate' %}"
-            $.get(url, function (result) {
-                $('#modal-container').html(result);
-                $('#modal').modal('show');
-            });
+            loadAndOpenModal(url);
+        });
+        $("#emailallbutton").click( function() {
+            //TODO fix the email link
+            M.toast({html: 'emailed...?'});
         });
     </script>
 {% endblock table-script %}

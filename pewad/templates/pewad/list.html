@@ -1,20 +1,23 @@
 {% extends 'pewad/basehtml.html' %}
 {% block title %}{{ list_title }} Listing{% endblock title %}
 {% block body %}
-    <div class="row" style="padding-top: 1em">
-        <div class="col">
-            <h3>{{list_title}} Listing <span style="font-size: 0.5em">(Click row for Details)</span></h3>
+    <div class="row">
+        <div class="col s12">
+            <h4>{{ list_title }} Listing
+                <span style="font-size: 0.5em">(Click row for Details)</span>
+            </h4>
+            <div class="divider"></div>
         </div>
-        <div class="col">
+    </div>
+    <div class="row">
+        <div class="col s12">
             {% block extra-buttons %}{% endblock extra-buttons %}
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            <hr>
+        <div class="col s12">
             <div id="list-table"></div>
         </div>
     </div>
-    <div id="modal-container"></div>
     {% block table-script %}{% endblock table-script %}
 {% endblock body %}

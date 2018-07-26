@@ -4,10 +4,9 @@
 {% block title %}Project: {{ passedValue }}{% endblock title %}
 
 {% block body %}
-    <h1>Employee Task Breakdown</h1>
-    <hr>
+    <h2>Employee Task Breakdown</h2>
+    <div class="divider"></div>
     <div id="example-table"></div>
-    <div id="modal-container"></div>
 
     <script type="text/javascript">
         var tableElem = $("#example-table");
@@ -51,10 +50,7 @@
                 rowClick: function (e, t) { //open record edit modal when the row is clicked
                     var url = "{% url 'pewad:workrecordupdate' 0 %}";
                     url = url.replace("0", t.row.data.pk);
-                    $.get(url, function (result) {
-                        $('#modal-container').html(result);
-                        $('#modal').modal('show');
-                    });
+                    loadAndOpenModal(url);
                 },
             });
         });

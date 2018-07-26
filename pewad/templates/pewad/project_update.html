@@ -1,37 +1,8 @@
-{% extends 'pewad/basehtml.html' %}
-{% load static %}
+{% extends 'pewad/update.html' %}
 
 {% block title %}Project Details: {{ project.abbr }} - {{ project.name }}{% endblock title %}
-
-{% block body %}
-<div class="row">
-    <div class="col">
-        <h2>Project Details: <strong>{{ project.abbr }} - {{ project.name }}</strong></h2>
-        <hr>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h4>Associated Work Records</h4>
-        <hr>
-        <div id="record-table"></div>
-        <hr>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h4>Edit Project</h4>
-        <hr>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Update" />
-        </form>
-        <hr>
-    </div>
-</div>
-<div id="modal-container"></div>
-
+{% block item-desc %}{{ project.abbr }} - {{ project.name }}{% endblock item-desc %}
+{% block table-script %}
 <script type="text/javascript">
     $(document).ready(function () {
         /* Build the main table here; settings adjustments */
@@ -67,16 +38,9 @@
                 { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter: "textarea" },
             ],
             rowClick: function (e, t) {
-                // On row click, open a WorkRecord edit modal
-                var url = "{% url 'pewad:workrecordupdate' 0 %}";
-                url = url.replace("0", t.row.data.pk);
-                $.get(url, function (result) {
-                    $('#modal-container').html(result);
-                    $('#modal').modal('show');
-                });
+                workRecordRowClick(t);
             },
         });
     });
 </script>
-
-{% endblock body %}
+{% endblock table-script %}

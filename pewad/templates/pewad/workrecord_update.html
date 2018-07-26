@@ -1,18 +1,20 @@
-{% load icons %}
-<div class="modal" tabindex="-1" role="dialog" id="modal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5>Edit Work Record</h5>
-                <button type="button" class="close" data-dismiss="modal">{% icon 'times' %}</button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{% url 'pewad:workrecordupdate' view.object.pk %}">
-                    {% csrf_token %} 
-                    {{ form.as_p }}
-                    <input type="submit" value="Update" />
-                </form>
-            </div>
-        </div>
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat btn-small right">
+            <i class="material-icons">close</i>
+        </a>
+        <h5>Edit Work Record</h5>
+        <div class="divider"></div>
+        <div class="divider"></div>
+        <form method="post" action="{% url 'pewad:workrecordupdate' view.object.pk %}">
+            {% csrf_token %} 
+            {{ form.as_p }}
+            <input type="submit" value="Update" />
+        </form>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>

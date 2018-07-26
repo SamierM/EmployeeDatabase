@@ -1,76 +1,40 @@
-{% extends 'pewad/basehtml.html' %}
-{% load static %}
+{% extends 'pewad/update.html' %}
 
 {% block title %}Contract Details: {{ contract.number }} {{ contract.name }}{% endblock title %}
-
-{% block body %}
-<div class="row">
-    <div class="col">
-        <h2>Contract Details: <strong>{{ contract.number }} {{ contract.name }}</strong></h2>
-        <hr>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h4>Associated Work Records</h4>
-        <hr>
-        <div id="record-table"></div>
-        <hr>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h4>Edit Contract</h4>
-        <hr>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Update" />
-        </form>
-        <hr>
-    </div>
-</div>
-<div id="modal-container"></div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        /* Build the main table here; settings adjustments */
-        $("#record-table").tabulator({
-            ajaxURL: "{% url 'pewad:contractrecords' contract.id %}", // Load table data
-            clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
-            height: false, // set height of table to enable virtual DOM
-            layout: "fitDataFill", //fit columns to width of table (optional)
-            layoutColumnsOnNewData: true, // fixes row heights (see: textarea) on data load
-            columns: [ //Define Table Columns
-                { title: "Project", field: "proj", sorter: "string" },
-                { // Lead Column Group
-                    title: "Lead",
-                    columns: [
-                        { title: "Last", field: "leadLast", sorter: "string" },
-                        { title: "First", field: "leadFirst", sorter: "string" },
-                    ],
+{% block item-desc %}{{ contract.number }} {{ contract.name }}{% endblock item-desc %}
+{% block table-script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /* Build the main table here; settings adjustments */
+            $("#record-table").tabulator({
+                ajaxURL: "{% url 'pewad:contractrecords' contract.id %}", // Load table data
+                clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
+                height: false, // set height of table to enable virtual DOM
+                layout: "fitDataFill", //fit columns to width of table (optional)
+                layoutColumnsOnNewData: true, // fixes row heights (see: textarea) on data load
+                columns: [ //Define Table Columns
+                    { title: "Project", field: "proj", sorter: "string" },
+                    { // Lead Column Group
+                        title: "Lead",
+                        columns: [
+                            { title: "Last", field: "leadLast", sorter: "string" },
+                            { title: "First", field: "leadFirst", sorter: "string" },
+                        ],
+                    },
+                    { // Employee Column Group
+                        title: "Employee/Consultant",
+                        columns: [
+                            { title: "Last", field: "empLast", sorter: "string" },
+                            { title: "First", field: "empFirst", sorter: "string" },
+                        ],
+                    },
+                    { title: "WBS Hours", field: "hours", sorter: "number" },
+                    { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter: "textarea" },
+                ],
+                rowClick: function (e, t) {
+                    workRecordRowClick(t);
                 },
-                { // Employee Column Group
-                    title: "Employee/Consultant",
-                    columns: [
-                        { title: "Last", field: "empLast", sorter: "string" },
-                        { title: "First", field: "empFirst", sorter: "string" },
-                    ],
-                },
-                { title: "WBS Hours", field: "hours", sorter: "number" },
-                { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter: "textarea" },
-            ],
-            rowClick: function (e, t) {
-                // On row click, open a WorkRecord edit modal
-                var url = "{% url 'pewad:workrecordupdate' 0 %}";
-                url = url.replace("0", t.row.data.pk);
-                $.get(url, function (result) {
-                    $('#modal-container').html(result);
-                    $('#modal').modal('show');
-                });
-            },
+            });
         });
-    });
-</script>
-
-{% endblock body %}
+    </script>
+{% endblock table-script %}

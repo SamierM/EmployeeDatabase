@@ -1,100 +1,47 @@
-{% extends 'pewad/basehtml.html' %}
-{% load static %}
-{% load icons %}
+{% extends 'pewad/update.html' %}
 
-{% block title %}Employee Record: {{employee.fname}} {{employee.lname}}{% endblock title %}
-
-{% block body %}
-<div class="row">
-    <div class="col">
-        <h2>Employee Record: <strong>{{employee.fname}} {{employee.lname}}</strong></h2>
-        <hr>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h4>Associated Work Records</h4>
-    </div>
-    <div class="col">
-        <a href="#" role="button" class="btn btn-sm btn-info pull-right" title="Email Records to {{employee.fname}}">{% icon 'envelope' %} Email</a>
-        <button id="clipboardbutton" type="button" class="btn btn-sm btn-secondary pull-right" title="Copy to Clipboard">{% icon 'clipboard' %} Copy</button>
-        <button id="createbutton" type="button" class="btn btn-sm btn-success pull-right" title="Create New Record">{% icon 'plus-square-o' %} New</button>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <hr>
-        <div id="record-table"></div>
-        <hr>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <h4>Edit Employee</h4>
-        <hr>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Update" />
-        </form>
-        <hr>
-    </div>
-</div>
-<div id="modal-container"></div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        /* Build the main table here; settings adjustments */
-        $("#record-table").tabulator({
-            ajaxURL: "{% url 'pewad:employeerecords' employee.id %}", // Load table data
-            clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
-            height: false, // set height of table to enable virtual DOM
-            layout: "fitDataFill", //fit columns to width of table (optional)
-            layoutColumnsOnNewData:true, // fixes row heights (see: textarea) on data load
-            columns: [ //Define Table Columns
-                { //Contract Column Group
-                    title: "Contract",
-                    columns: [
-                        { title: "Number", field: "conNum", sorter: "string" },
-                        { title: "Name", field: "conName", sorter: "string" },
-                    ],
+{% block title %}Employee Record: {{ employee.fname }} {{ employee.lname }}{% endblock title%}
+{% block item-desc %}{{ employee.fname }} {{ employee.lname }}{% endblock item-desc %}
+{% block helper-buttons %}
+    <a id="emailbutton" class="waves-effect waves-light btn-small" title="Email Records to {{ employee.fname }}">
+        <i class="material-icons left">email</i>Email</a>
+{% endblock helper-buttons %}
+{% block table-script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /* Build the main table here; settings adjustments */
+            $("#record-table").tabulator({
+                ajaxURL: "{% url 'pewad:employeerecords' employee.id %}", // Load table data
+                clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
+                height: false, // set height of table to enable virtual DOM
+                layout: "fitDataFill", //fit columns to width of table (optional)
+                layoutColumnsOnNewData: true, // fixes row heights (see: textarea) on data load
+                columns: [ //Define Table Columns
+                    { //Contract Column Group
+                        title: "Contract",
+                        columns: [
+                            { title: "Number", field: "conNum", sorter: "string" },
+                            { title: "Name", field: "conName", sorter: "string" },
+                        ],
+                    },
+                    { title: "Project", field: "proj", sorter: "string" },
+                    { // Lead Column Group
+                        title: "Lead",
+                        columns: [
+                            { title: "Last", field: "leadLast", sorter: "string" },
+                            { title: "First", field: "leadFirst", sorter: "string" },
+                        ],
+                    },
+                    { title: "WBS Hours", field: "hours", sorter: "number", bottomCalc: "sum" },
+                    { title: "Work Assignment", field: "assig", sortable: false, formatter: "textarea" },
+                ],
+                rowClick: function (e, t) {
+                    // On row click, open a WorkRecord edit modal
+                    var url = "{% url 'pewad:workrecordupdate' 0 %}";
+                    url = url.replace("0", t.row.data.pk);
+                    loadAndOpenModal(url);
                 },
-                { title: "Project", field: "proj", sorter: "string" },
-                { // Lead Column Group
-                    title: "Lead",
-                    columns: [
-                        { title: "Last", field: "leadLast", sorter: "string" },
-                        { title: "First", field: "leadFirst", sorter: "string" },
-                    ],
-                },
-                { title: "WBS Hours", field: "hours", sorter: "number", bottomCalc: "sum" },
-                { title: "Work Assignment", field: "assig", sortable: false, formatter: "textarea" },
-            ],
-            rowClick: function (e, t) {
-                // On row click, open a WorkRecord edit modal
-                var url = "{% url 'pewad:workrecordupdate' 0 %}";
-                url = url.replace("0", t.row.data.pk);
-                loadAndOpenModal(url);
-            },
+            });
         });
-    });
-
-    function loadAndOpenModal(url) {
-        // GET request for a form and launches it in a modal
-        $.get(url, function (result) {
-            $('#modal-container').html(result);
-            $('#modal').modal('show');
-        });
-    }
-
-    $("#createbutton").click( function() {
-        loadAndOpenModal("{% url 'pewad:workrecordcreate' %}");
-    });
-
-    $("#clipboardbutton").click( function() {
-        $("#record-table").tabulator("copyToClipboard"); //copy the table to the clipboard and include the column headers
-    });
-
-</script>
-
-{% endblock body %}
+    </script>
+{% endblock table-script %}
