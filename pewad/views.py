@@ -8,7 +8,8 @@ from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.serializers import serialize
 from django.template.loader import render_to_string
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives, get_connection
+from django.utils.html import strip_tags
 
 from .models import Contract, Employee, Project, WorkRecord
 
@@ -187,23 +188,45 @@ def create_email_message(work_records):
     return render_to_string("email/email.html", msgparams)
 
 
+def generate_html_email(recipient, work_records):
+    """ Create an HTML email object """
+    htmlmsg = create_email_message(work_records)
+    plainmsg = strip_tags(htmlmsg)
+    email = EmailMultiAlternatives(
+        '%s Work Assignment' % recipient.lname, plainmsg, 'admin@gblsys.com', [recipient.email])
+    email.attach_alternative(htmlmsg, "text/html")
+    return email
+
+
 def email_single_employee(request, pk):
     """ Email an Employee's WorkRecords to the employee """
     recip = get_object_or_404(Employee, pk=pk)
-
-    # TODO obviously this needs to be fixed
-    SENDER = 'camico@gblsys.com'
-
     records = WorkRecord.objects.filter(emp=pk).order_by('-hours')
-    msg = create_email_message(records)
+    email = generate_html_email(recip, records)
+    try:
+        email.send()
+        return HttpResponse(status=200)
+    except ConnectionRefusedError:
+        messages.error(request, 'Error: Failed to connect to mail server.')
+    
+    return HttpResponse(status=400)
 
-    return send_mail(
-        '%s Work Assignment' % recip.lname,  # Subject line
-        msg,  # Message body
-        SENDER,  # Sender
-        [recip.email],  # Recipient List
-        fail_silently=False,
-    )
+
+
+def email_all_employees(request):
+    """ Email all WorkRecords in the system for each employee """
+    all_emails = []
+    for emp in Employee.objects.all():
+        recs = emp.workrecord_set.order_by('-hours')
+        if recs:
+            email = generate_html_email(emp, recs)
+            all_emails.append(email)
+    if all_emails:
+        connection = get_connection()
+        connection.send_messages(all_emails)
+
+    return HttpResponse(status=200)
+
 
 # ------------------------------------------------------------
 # -------------------- JSON helper functions -----------------

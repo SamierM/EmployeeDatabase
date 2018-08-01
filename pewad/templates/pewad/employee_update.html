@@ -43,5 +43,18 @@
                 },
             });
         });
+
+        $('#emailbutton').click(function(){
+            $.ajax({
+                url: "{% url 'pewad:employeeemail' employee.id %}",
+                type: 'GET',
+                success: function(data){ 
+                    M.toast({html: 'Email successfully sent!', displayLength: 10000});
+                },
+                error: function(data) {
+                    location.reload();
+                }
+            });
+        });
     </script>
 {% endblock table-script %}

@@ -1,42 +1,47 @@
-<style>
-    table,
-    th,
-    td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
+<html>
+<body>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
 
-    th,
-    td {
-        text-align: left;
-        padding: 3px;
-        width: 10%;
-    }
-    th.wider {
-        width: 60%;
-    }
-</style>
-<p>All of our employees are notified on a regular basis of their work assignments. The following table has been updated to reflect
-    your current work assignments:</p>
-<table>
-    <caption>{{ name }}</caption>
-    <thead>
-        <tr>
-            <th>Contract</th>
-            <th>Project</th>
-            <th>Lead</th>
-            <th>WBS Hours</th>
-            <th class="wider">Work Assignments</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{ rows | safe }}
-    </tbody>
-</table>
-<p>Please let your lead know right away if you feel you have been tasked to work differently than is reflected in this table.
-    Also, please notify your lead in advance if you are requested to work on other projects, so we can send you an updated
-    work assignment. Specific task assignments will be provided by your Project Lead(s). Employees with charges listed as
-    “As Needed” are authorized across various contracts/charge codes and must receive prior authorization from Senior Management
-    to use these charge codes. These assignment sheets should be printed and readily available at desk location to show any
-    auditor assigned work efforts. </p>
-<p>As always, Senior Management and Project Leads have an open door policy, so feel free to reach out to any of us for questions/concerns.</p>
+        th,
+        td {
+            text-align: left;
+            padding: 3px;
+            width: 10%;
+        }
+
+        th.wider {
+            width: 60%;
+        }
+    </style>
+    <p>All of our employees are notified on a regular basis of their work assignments. The following table has been updated
+        to reflect your current work assignments:</p>
+    <table>
+        <caption>{{ name }}</caption>
+        <thead>
+            <tr>
+                <th>Contract</th>
+                <th>Project</th>
+                <th>Lead</th>
+                <th>WBS Hours</th>
+                <th class="wider">Work Assignments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{ rows | safe }}
+        </tbody>
+    </table>
+    <p>Please let your lead know right away if you feel you have been tasked to work differently than is reflected in this table.
+        Also, please notify your lead in advance if you are requested to work on other projects, so we can send you an updated
+        work assignment. Specific task assignments will be provided by your Project Lead(s). Employees with charges listed
+        as “As Needed” are authorized across various contracts/charge codes and must receive prior authorization from Senior
+        Management to use these charge codes. These assignment sheets should be printed and readily available at desk location
+        to show any auditor assigned work efforts. </p>
+    <p>As always, Senior Management and Project Leads have an open door policy, so feel free to reach out to any of us for questions/concerns.</p>
+</body>
+</html>

@@ -74,10 +74,8 @@ WSGI_APPLICATION = 'madrox.wsgi.application'
 
 # Email
 
-EMAIL_HOST = 'smtp.office365.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'admin@gblsys.com'
-EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_HOST = 'mrpostman'
+EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
 

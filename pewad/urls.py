@@ -23,6 +23,12 @@ urlpatterns = [
     # ex: /pewad/employee/4/records -- Detail/Update view of a single employee (table data call)
     path('employee/<int:emp_id>/records',
          views.employee_json_records, name='employeerecords'),
+    # ex: /pewad/employee/4/email -- Sends an email to the employee with a WorkRecord table
+    path('employee/<int:pk>/email',
+         views.email_single_employee, name='employeeemail'),
+    # ex: /pewad/employee/emailall -- Sends emails to all employee with a WorkRecord table
+    path('employee/emailall',
+         views.email_all_employees, name='employeeemailall'),
     # ex: /pewad/employee/create -- Create a new Employee
     path('employee/create', views.EmployeeCreate.as_view(), name='employeecreate'),
 

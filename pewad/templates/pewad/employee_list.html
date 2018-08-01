@@ -27,13 +27,14 @@
             });
         });
 
-        $("#createbutton").click( function() {
+        $("#createbutton").click(function () {
             var url = "{% url 'pewad:employeecreate' %}"
             loadAndOpenModal(url);
         });
-        $("#emailallbutton").click( function() {
-            //TODO fix the email link
-            M.toast({html: 'emailed...?'});
+        $("#emailallbutton").click(function () {
+            var url = "{% url 'pewad:employeeemailall' %}"
+            $.get(url, function (result) { });
+            M.toast({ html: 'Emailing all employees.' });
         });
     </script>
 {% endblock table-script %}
