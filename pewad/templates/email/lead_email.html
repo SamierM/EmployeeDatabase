@@ -1,0 +1,26 @@
+<html>
+<body>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 3px;
+            width: 10%;
+        }
+
+        th.wider {
+            width: 60%;
+        }
+    </style>
+    <p>All of our employees are notified on a regular basis of their work assignments. The following tables have been updated
+        to reflect the current work assignments of employees under your supervision:</p>
+    {{ tables | safe }}
+</body>
+</html>

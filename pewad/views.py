@@ -10,6 +10,8 @@ from django.core.serializers import serialize
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, EmailMultiAlternatives, get_connection
 from django.utils.html import strip_tags
+from django.utils.datastructures import MultiValueDict
+import pprint
 
 from .models import Contract, Employee, Project, WorkRecord
 
@@ -56,6 +58,16 @@ class WorkRecordCreate(SuccessMessageMixin, generic.CreateView):
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER')
 
+class WorkRecordDelete(SuccessMessageMixin, generic.DeleteView):
+    """ Deletes a WorkRecord, with confirmation """
+    model = WorkRecord
+
+    def get_success_message(self, cleaned_data):
+        return "Work Record \"%s\" was successfully deleted." % self.object
+        
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
 # ------------------------------------------------------------
 # -------------------- Employee Views ------------------------
 # ------------------------------------------------------------
@@ -72,6 +84,9 @@ class EmployeeCreate(SuccessMessageMixin, generic.CreateView):
 
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER')
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error: failed create')
 
 
 def employee_list(request):
@@ -177,7 +192,7 @@ def project_json_records(request, pk):
 
 
 def create_email_message(work_records):
-    """ Creates a email body string from a template """
+    """ Creates an email body string from a template """
     table_rows = ""
     for rec in work_records:
         rd = {'cont': rec.cont, 'proj': rec.proj.abbr,
@@ -208,9 +223,8 @@ def email_single_employee(request, pk):
         return HttpResponse(status=200)
     except ConnectionRefusedError:
         messages.error(request, 'Error: Failed to connect to mail server.')
-    
-    return HttpResponse(status=400)
 
+    return HttpResponse(status=400)
 
 
 def email_all_employees(request):
@@ -224,6 +238,51 @@ def email_all_employees(request):
     if all_emails:
         connection = get_connection()
         connection.send_messages(all_emails)
+
+    return HttpResponse(status=200)
+
+
+
+def create_lead_table(work_records):
+    return None
+
+def create_lead_message(work_records):
+    """ Creates an email body string from a template; for agregated lead email """
+    
+    recs_by_emp = MultiValueDict()
+    for r in work_records:
+        recs_by_emp.appendlist(r.emp, r)
+
+    for rec in recs_by_emp:
+        rd = {'emp':rec.emp, 'cont':rec.cont, 'proj':rec.proj.abbr, 'hours':rec.hours, 'task':rec.task}
+        table_rows += render_to_string("email/leadrow.html", rd)
+    msgparams = {'name': work_records[0].lead, 'rows': table_rows}
+
+    return render_to_string("email/lead.html", msgparams)
+
+
+def email_all_leads(request):
+    """ Email all leads a compiled list of all WorkRecords for all their employees """
+    all_supervisors_emails = []
+
+    sorted_by_lead_email = MultiValueDict()
+    recs = WorkRecord.objects.all()
+
+    #sort all tasks into buckets by Lead
+    for r in recs:
+        sorted_by_lead_email.appendlist(r.lead, r)
+
+    #create table for each employees' data
+    for lead in sorted_by_lead_email:
+        emps_tasks = sorted_by_lead_email.getlist(lead)
+
+        html_table = create_lead_table(emps_tasks)
+
+
+        print(lead)
+        print(emps_tasks)
+
+        
 
     return HttpResponse(status=200)
 

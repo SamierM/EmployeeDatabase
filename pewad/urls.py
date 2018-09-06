@@ -12,6 +12,10 @@ urlpatterns = [
          name='workrecordupdate'),
     # ex: /pewad/wr/create -- Create a new WorkRecord
     path('wr/create', views.WorkRecordCreate.as_view(), name='workrecordcreate'),
+    # ex: /pewad/wr/delete -- Delete an existing WorkRecord
+    path('wr/<int:pk>/delete', views.WorkRecordDelete.as_view(), name='workrecorddelete'),
+
+    path('lead/email', views.email_all_leads, name='leademailall'),
 
     # ex: /pewad/employee/list -- List of all employees
     path('employee/list', views.employee_list, name='employeelist'),

@@ -18,7 +18,7 @@ class Employee(BaseModel):
     # Employee database model
     fname = models.CharField("First Name", max_length=200)
     lname = models.CharField("Last Name", max_length=200)
-    email = models.EmailField("Email", null=True)
+    email = models.EmailField("Email", null=False)
 
     def __str__(self):
         return "{self.fname} {self.lname}".format(self=self)

@@ -9,3 +9,7 @@
 .divider{
     margin-bottom: 1px !important;
 }
+
+div#alert_box{
+    margin-bottom: 0px !important;
+}
