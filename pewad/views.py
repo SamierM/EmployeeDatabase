@@ -58,13 +58,14 @@ class WorkRecordCreate(SuccessMessageMixin, generic.CreateView):
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER')
 
+
 class WorkRecordDelete(SuccessMessageMixin, generic.DeleteView):
     """ Deletes a WorkRecord, with confirmation """
     model = WorkRecord
 
     def get_success_message(self, cleaned_data):
         return "Work Record \"%s\" was successfully deleted." % self.object
-        
+
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER')
 
@@ -191,6 +192,16 @@ def project_json_records(request, pk):
 # ------------------------------------------------------------
 
 
+def generate_email(recipient, subject, body):
+    """ Generic email creation """
+    plaintext_msg = strip_tags(body)
+    email = EmailMultiAlternatives(
+        subject, plaintext_msg, 'admin@gblsys.com', [recipient])
+    email.attach_alternative(body, "text/html")
+
+    return email
+
+
 def create_email_message(work_records):
     """ Creates an email body string from a template """
     table_rows = ""
@@ -203,26 +214,21 @@ def create_email_message(work_records):
     return render_to_string("email/email.html", msgparams)
 
 
-def generate_html_email(recipient, work_records):
-    """ Create an HTML email object """
-    htmlmsg = create_email_message(work_records)
-    plainmsg = strip_tags(htmlmsg)
-    email = EmailMultiAlternatives(
-        '%s Work Assignment' % recipient.lname, plainmsg, 'admin@gblsys.com', [recipient.email])
-    email.attach_alternative(htmlmsg, "text/html")
-    return email
-
-
 def email_single_employee(request, pk):
     """ Email an Employee's WorkRecords to the employee """
     recip = get_object_or_404(Employee, pk=pk)
     records = WorkRecord.objects.filter(emp=pk).order_by('-hours')
-    email = generate_html_email(recip, records)
+
+    sub_msg = '%s Work Assignment' % recip.lname
+    body = create_email_message(records)
+    email = generate_email(recip.email, sub_msg, body)
     try:
         email.send()
         return HttpResponse(status=200)
     except ConnectionRefusedError:
         messages.error(request, 'Error: Failed to connect to mail server.')
+    except Exception:
+        messages.error(request, 'Error: Email failed, contact administrator.')
 
     return HttpResponse(status=400)
 
@@ -242,19 +248,16 @@ def email_all_employees(request):
     return HttpResponse(status=200)
 
 
-
-def create_lead_table(work_records):
-    return None
-
 def create_lead_message(work_records):
     """ Creates an email body string from a template; for agregated lead email """
-    
+
     recs_by_emp = MultiValueDict()
     for r in work_records:
         recs_by_emp.appendlist(r.emp, r)
 
     for rec in recs_by_emp:
-        rd = {'emp':rec.emp, 'cont':rec.cont, 'proj':rec.proj.abbr, 'hours':rec.hours, 'task':rec.task}
+        rd = {'emp': rec.emp, 'cont': rec.cont, 'proj': rec.proj.abbr,
+              'hours': rec.hours, 'task': rec.task}
         table_rows += render_to_string("email/leadrow.html", rd)
     msgparams = {'name': work_records[0].lead, 'rows': table_rows}
 
@@ -266,25 +269,54 @@ def email_all_leads(request):
     all_supervisors_emails = []
 
     sorted_by_lead_email = MultiValueDict()
-    recs = WorkRecord.objects.all()
+    db_records = WorkRecord.objects.all()
 
-    #sort all tasks into buckets by Lead
-    for r in recs:
+    # sort all tasks into buckets by Lead
+    for r in db_records:
         sorted_by_lead_email.appendlist(r.lead, r)
 
-    #create table for each employees' data
+    # create table for each employees' data
     for lead in sorted_by_lead_email:
-        emps_tasks = sorted_by_lead_email.getlist(lead)
+        emps_tasks_by_lead = sorted_by_lead_email.getlist(lead)
+        html_emp_tables = create_lead_tables(emps_tasks_by_lead)
+        email_body = render_to_string(
+            "email/lead_email.html", {'tables': html_emp_tables})
 
-        html_table = create_lead_table(emps_tasks)
+        sub = '%s - Team Work Assignments' % lead
+        email = generate_email(lead.email, sub, email_body)
+        all_supervisors_emails.append(email)
+
+    # send all supervisor emails
+    if all_supervisors_emails:
+        connection = get_connection()
+        connection.send_messages(all_supervisors_emails)
+        return HttpResponse(status=200)
+
+    return HttpResponse(status=400)
 
 
-        print(lead)
-        print(emps_tasks)
+def create_lead_tables(records_by_emp):
+    """ Create the HTML tables for each Employee assigned to the Lead """
+    sorted_by_emp = MultiValueDict()
+    for wr in records_by_emp:
+        sorted_by_emp.appendlist(wr.emp, wr)
 
-        
+    html_tables = ""
+    # build table for each emp
+    for emp in sorted_by_emp:
+        tasks_by_emp = sorted_by_emp.getlist(emp)
+        table_rows = ""
 
-    return HttpResponse(status=200)
+        # build table rows for each emps' tasks
+        for rec in tasks_by_emp:
+            rowdata = {'cont': rec.cont, 'proj': rec.proj.abbr,
+                       'emp': rec.emp, 'hours': rec.hours, 'task': rec.task}
+            table_rows += render_to_string("email/lead_row.html", rowdata)
+
+        tableparams = {'name': emp, 'rows': table_rows}
+        html_tables += render_to_string("email/lead_table.html", tableparams)
+
+    return html_tables
 
 
 # ------------------------------------------------------------
