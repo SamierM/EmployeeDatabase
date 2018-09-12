@@ -3,8 +3,10 @@
 {% block extra-buttons %}
     <a id="createbutton" class="waves-effect waves-light btn-small" title="Create New Employee">
         <i class="material-icons left">person_add</i>Create New Employee</a>
-        <a id="emailallbutton" class="waves-effect waves-light btn-small" title="Email All Employees">
-                <i class="material-icons left">email</i>Email All Employees</a>        
+    <a id="emailallbutton" class="waves-effect waves-light btn-small" title="Email All Employees">
+        <i class="material-icons left">email</i>Email All Employees</a>
+    <a id="emailleadsbutton" class="waves-effect waves-light btn-small" title="Email All Leads">
+        <i class="material-icons left">email</i>Email Lead Reports</a>
 {% endblock extra-buttons %}
 {% block table-script %}
     <script type="text/javascript">
@@ -35,6 +37,11 @@
             var url = "{% url 'pewad:employeeemailall' %}"
             $.get(url, function (result) { });
             M.toast({ html: 'Emailing all employees.' });
+        });
+        $("#emailleadsbutton").click(function() {
+            var url = "{% url 'pewad:leademailall' %}";
+            M.toast({ html: 'Emailing all Leads...' });
+            $.get(url, function (result) { });
         });
     </script>
 {% endblock table-script %}
