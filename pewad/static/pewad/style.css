@@ -1,0 +1,15 @@
+.icon_style{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+    cursor:pointer; 
+}
+
+.divider{
+    margin-bottom: 1px !important;
+}
+
+div#alert_box{
+    margin-bottom: 0px !important;
+}

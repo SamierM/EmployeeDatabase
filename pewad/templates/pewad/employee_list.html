@@ -1,34 +1,47 @@
 {% extends 'pewad/list.html' %}
 
+{% block extra-buttons %}
+    <a id="createbutton" class="waves-effect waves-light btn-small" title="Create New Employee">
+        <i class="material-icons left">person_add</i>Create New Employee</a>
+    <a id="emailallbutton" class="waves-effect waves-light btn-small" title="Email All Employees">
+        <i class="material-icons left">email</i>Email All Employees</a>
+    <a id="emailleadsbutton" class="waves-effect waves-light btn-small" title="Email All Leads">
+        <i class="material-icons left">email</i>Email Lead Reports</a>
+{% endblock extra-buttons %}
 {% block table-script %}
     <script type="text/javascript">
         $(document).ready(function () {
             /* Build the table here; settings adjustments */
             $("#list-table").tabulator({
-                //ajaxURL: "{% url 'pewad:loadtable' %}", // Load table data
-                persistentLayout: true, //Enable column layout persistence
-                height: 600, // set height of table to enable virtual DOM
+                ajaxURL: "{% url 'pewad:employeelistdata' %}", // Load table data
+                clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
                 layout: "fitDataFill", //fit columns to width of table (optional)
+                initialSort: [{ column: "fields.lname", dir: "asc" },],
                 columns: [ //Define Table Columns
-                    { title: "ID", field: "id", sorter: "number" },
-                    { title: "Last", field: "empLast", sorter: "string" },
-                    { title: "First", field: "empFirst", sorter: "string" },
-                    { title: "Edit", sortable: false, value: "Edit", cellClick:function(e, cell){
-                        location.href=cell;
-                    }},
-                    { title: "assrec", field: "associatedRecord",}
+                    { title: "ID", field: "pk", sorter: "number" },
+                    { title: "Last", field: "fields.lname", sorter: "string" },
+                    { title: "First", field: "fields.fname", sorter: "string" },
+                    { title: "Email", field: "fields.email", sorter: "string" }
                 ],
-                rowClick: function (e, id, data, row) { //trigger an alert message when the row is clicked
-                    location.href=id.row.data.id;
+                rowClick: function (e, id) {
+                    location.href = id.row.data.pk;
                 },
             });
+        });
 
-            var tabledata = [{id:1, empFirst:"cory", empLast:"amico",},];
-            $("#list-table").tabulator("setData", tabledata);
+        $("#createbutton").click(function () {
+            var url = "{% url 'pewad:employeecreate' %}"
+            loadAndOpenModal(url);
+        });
+        $("#emailallbutton").click(function () {
+            var url = "{% url 'pewad:employeeemailall' %}"
+            $.get(url, function (result) { });
+            M.toast({ html: 'Emailing all employees.' });
+        });
+        $("#emailleadsbutton").click(function() {
+            var url = "{% url 'pewad:leademailall' %}";
+            M.toast({ html: 'Emailing all Leads...' });
+            $.get(url, function (result) { });
         });
     </script>
 {% endblock table-script %}
-
-
-{% if all_items %}
-{% endif %}

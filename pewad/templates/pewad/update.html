@@ -1,0 +1,62 @@
+{% extends 'pewad/basehtml.html' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col s12">
+            <h3>
+                <span style="font-size: 0.75em">{{ object.classname | title }} Details: </span>
+                <strong>{% block item-desc %}{% endblock item-desc %}</strong>
+            </h3>
+            <div class="divider"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <h5>Associated Work Records</h5>
+            <div class="divider"></div>
+        </div>
+    </div>
+    <div class="row right">
+        <div class="col s12">
+            {% block helper-buttons %}{% endblock helper-buttons %}
+            <a id="clipboardbutton" class="waves-effect waves-light btn-small" title="Copy to Clipboard">
+                <i class="material-icons left">filter_frames</i>Copy</a>
+            <a id="createbutton" class="waves-effect waves-light btn-small" title="Create New Record">
+                <i class="material-icons left">note_add</i>New</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div id="record-table"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s8">
+            <h5>Edit {{ object.classname | title }}</h5>
+            <div class="divider"></div>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Update" class="waves-effect waves-yellow btn-flat green lighten-4" />
+            </form>
+        </div>
+    </div>
+    {% block table-script %}{% endblock table-script %} 
+    <script type="text/javascript">
+        function workRecordRowClick(t) {
+            // On row click, open a WorkRecord edit modal
+            var url = "{% url 'pewad:workrecordupdate' 0 %}";
+            url = url.replace("0", t.row.data.pk);
+            loadAndOpenModal(url);
+        }
+
+        $("#createbutton").click(function () {
+            loadAndOpenModal("{% url 'pewad:workrecordcreate' %}");
+        });
+
+        $("#clipboardbutton").click(function () {
+            $("#record-table").tabulator("copyToClipboard"); //copy the table to the clipboard and include the column headers
+            M.toast({ html: 'Table copied to clipboard!' });
+        });
+    </script>
+{% endblock body %}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -71,6 +72,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'madrox.wsgi.application'
 
 
+# Email
+
+EMAIL_HOST = 'mrpostman'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+
+
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -119,3 +127,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Alert message color translations for Materializecss
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'purple lighten-4',
+    messages.INFO: 'light-blue lighten-4',
+    messages.SUCCESS: 'green lighten-4',
+    messages.WARNING: 'yellow lighten-4',
+    messages.ERROR: 'red lighten-4',
+}

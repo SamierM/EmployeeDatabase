@@ -1,7 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -13,40 +12,58 @@
         {% if debug %}DEBUG {% endif %}{% block title %}{% endblock %}
     </title>
 </head>
-
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'pewad:index' %}">
-            <img src="{% static 'pewad/images/mm.jpg' %}" width="30" height="30" alt="" class="rounded">
-            PEWAD
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{% url 'pewad:contractlist' %}">Contracts</a>
-                <a class="nav-item nav-link" href="{% url 'pewad:projectlist' %}">Projects</a>
-                <a class="nav-item nav-link" href="{% url 'pewad:employeelist' %}">Employees</a>
-            </div>
+    <nav class="purple">
+        <div class="nav-wrapper">
+            <a class="brand-logo" href="{% url 'pewad:index' %}">
+                <img src="{% static 'pewad/images/mm-round.png' %}" height="30" width="30" alt="logo" style="position:relative; top:5px; margin-left:10px;"> PEWAD
+            </a>
+            <ul id="nav" class="right">
+                <li><a class="nav-item nav-link" href="{% url 'pewad:contractlist' %}">Contracts</a></li>
+                <li><a class="nav-item nav-link" href="{% url 'pewad:projectlist' %}">Projects</a></li>
+                <li><a class="nav-item nav-link" href="{% url 'pewad:employeelist' %}">Employees</a></li>
+            </ul>
         </div>
     </nav>
-    <div id="content" class="container-fluid">
-        {% if messages %}
-            <div class="row">
-                <div class="col">
+    <div id="modal-container"></div>
+    <div id="content" class="container" style="width: 90%">
+        <div class="row" id="alert_box">
+            {% if messages %}
+                <div id="alert_msgs" class="col s12 m12">
                     {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                    <div class="card {{ message.tags }}">
+                        <div class="row">
+                            <div class="col s12 m10">
+                                <div class="card-content">
+                                    <strong>{{ message }}</strong>
+                                </div>
+                            </div>
+                            <div class="col s12 m2">
+                                <i class="material-icons icon_style" id="alert_close" aria-hidden="true">close</i>
+                            </div>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
         {% block body %} {% endblock %} 
         {% block footer %} {% endblock %}
     </div>
-</body>
+    <script type="text/javascript">
+        $('#alert_close').on('click', function () {
+            /* Closes alert messages */
+            $("#alert_box").fadeOut("slow", function () {});
+        });
 
+        function loadAndOpenModal(url) {
+            /* Make a GET request for a form and launches it in a modal */
+            $.get(url, function (result) {
+                $('#modal-container').html(result);
+                $('.modal').modal();
+                $('#modal').modal('open');
+            });
+        }
+    </script>
+</body>
 </html>

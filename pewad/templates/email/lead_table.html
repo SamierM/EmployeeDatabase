@@ -1,0 +1,16 @@
+<table>
+    <caption>{{ name }}</caption>
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Contract</th>
+            <th>Project</th>
+            <th>WBS Hours</th>
+            <th class="wider">Work Assignments</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ rows | safe }}
+    </tbody>
+</table>
+<br>

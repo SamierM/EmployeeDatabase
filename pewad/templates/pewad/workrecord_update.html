@@ -1,0 +1,20 @@
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <button href="#!" class="modal-close waves-effect waves-green btn-flat btn-small right">
+            <i class="material-icons">close</i>
+        </button>
+        <h5>Edit Work Record</h5>
+        <div class="divider"></div>
+        <div class="divider"></div>
+        <form method="post" action="{% url 'pewad:workrecordupdate' view.object.pk %}">
+            {% csrf_token %} 
+            {{ form.as_p }}
+            <button type="submit" class="waves-effect waves-yellow green lighten-2 btn-small">update</button>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
