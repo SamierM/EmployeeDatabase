@@ -22,5 +22,10 @@
                 },
             });
         });
+
+        $("#createbutton").click(function(){
+            var url = "{% url 'pewad:contractcreate' %}"
+            loadAndOpenModal(url);
+        });
     </script>
 {% endblock table-script %}

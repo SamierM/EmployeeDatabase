@@ -1,0 +1,15 @@
+<div class="modal bottom-sheet" id="modal">
+    <div class="modal-content">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat btn-small right">
+            <i class="material-icons">close</i>
+        </a>
+        <h5>Create New Contract</h5>
+        <div class="divider"></div>
+        <div class="divider"></div>
+        <form method="POST" action="{% url 'pewad:contractcreate' %}">
+            {% csrf_token %} 
+            {{ form.as_p }}
+            <input type="submit" value="Create" class="waves-effect waves-green btn-flat btn-small" />
+        </form>
+    </div>
+</div>

@@ -47,6 +47,8 @@ urlpatterns = [
     # ex: /pewad/contract/12/records -- Detail/Update view of a single contract (table data call)
     path('contract/<int:pk>/records',
          views.contact_json_records, name='contractrecords'),
+    # ex: /pewad/employee/create -- Create a new Employee
+    path('contract/create', views.ContractCreate.as_view(), name='contractcreate'),
 
     # ex: /pewad/project/list -- List of all projects
     path('project/list', views.project_list, name='projectlist'),
@@ -58,4 +60,6 @@ urlpatterns = [
     # ex: /pewad/project/12/records -- Detail/Update view of a single project (table data call)
     path('project/<int:pk>/records',
          views.contact_json_records, name='projectrecords'),
+    # ex: /pewad/project/create -- Create a new Employee
+    path('project/create', views.ProjectCreate.as_view(), name='projectcreate'),
 ]
