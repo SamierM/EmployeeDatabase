@@ -13,3 +13,8 @@
 div#alert_box{
     margin-bottom: 0px !important;
 }
+
+.align-bottom{
+    display: flex;
+    align-items: flex-end;
+}
