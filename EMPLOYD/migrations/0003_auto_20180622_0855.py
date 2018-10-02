@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pewad', '0002_auto_20180621_1704'),
+        ('EMPLOYD', '0002_auto_20180621_1704'),
     ]
 
     operations = [
@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='workrecord',
             name='lead',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='Lead', to='pewad.Employee', verbose_name='Lead'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='Lead', to='EMPLOYD.Employee', verbose_name='Lead'),
         ),
     ]

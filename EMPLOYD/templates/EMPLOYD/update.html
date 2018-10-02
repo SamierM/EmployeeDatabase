@@ -1,4 +1,4 @@
-{% extends 'pewad/basehtml.html' %}
+{% extends 'EMPLOYD/basehtml.html' %}
 
 {% block body %}
     <div class="row">
@@ -45,13 +45,13 @@
     <script type="text/javascript">
         function workRecordRowClick(t) {
             // On row click, open a WorkRecord edit modal
-            var url = "{% url 'pewad:workrecordupdate' 0 %}";
+            var url = "{% url 'EMPLOYD:workrecordupdate' 0 %}";
             url = url.replace("0", t.row.data.pk);
             loadAndOpenModal(url);
         }
 
         $("#createbutton").click(function () {
-            loadAndOpenModal("{% url 'pewad:workrecordcreate' %}");
+            loadAndOpenModal("{% url 'EMPLOYD:workrecordcreate' %}");
         });
 
         $("#clipboardbutton").click(function () {

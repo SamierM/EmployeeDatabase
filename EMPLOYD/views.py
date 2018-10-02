@@ -22,9 +22,9 @@ from .models import Contract, Employee, Project, WorkRecord
 
 
 def index(request):
-    """ Display the default PEWAD landing page"""
+    """ Display the default EMPLOYD landing page"""
     context = {'passedValue': "MADROX", }
-    return render(request, 'pewad/index.html', context)
+    return render(request, 'EMPLOYD/index.html', context)
 
 
 def index_json_table_data(request):
@@ -93,7 +93,7 @@ class EmployeeCreate(SuccessMessageMixin, generic.CreateView):
 def employee_list(request):
     """ Display list view showing all Employees """
 
-    return render(request, 'pewad/employee_list.html', {'list_title': 'Employee'})
+    return render(request, 'EMPLOYD/employee_list.html', {'list_title': 'Employee'})
 
 
 def employee_json_table_data(request):
@@ -127,7 +127,7 @@ def employee_json_records(request, emp_id):
 def contract_list(request):
     """ Display list view showing all Contracts """
 
-    return render(request, 'pewad/contract_list.html', {'list_title': 'Contracts'})
+    return render(request, 'EMPLOYD/contract_list.html', {'list_title': 'Contracts'})
 
 
 def contract_json_table_data(request):
@@ -161,7 +161,7 @@ def contact_json_records(request, pk):
 def project_list(request):
     """ Display list view showing all Projects """
 
-    return render(request, 'pewad/project_list.html', {'list_title': 'Project'})
+    return render(request, 'EMPLOYD/project_list.html', {'list_title': 'Project'})
 
 
 def project_json_table_data(request):

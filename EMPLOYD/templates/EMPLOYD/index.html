@@ -1,4 +1,4 @@
-{% extends 'pewad/basehtml.html' %}
+{% extends 'EMPLOYD/basehtml.html' %}
 {% load static %}
 
 {% block title %}Project: {{ passedValue }}{% endblock title %}
@@ -14,7 +14,7 @@
         $(document).ready(function () {
             /* Build the main table here; settings adjustments */
             tableElem.tabulator({
-                ajaxURL: "{% url 'pewad:loadtable' %}", // Load table data
+                ajaxURL: "{% url 'EMPLOYD:loadtable' %}", // Load table data
                 persistentLayout: false, // Enable column layout persistence
                 clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
                 height: getViewableHeight(), // Set height of table to enable virtual DOM
@@ -48,7 +48,7 @@
                     { title: "Work Assignment", field: "assig", sorter: "string", sortable: false, formatter:"textarea"},
                 ],
                 rowClick: function (e, t) { //open record edit modal when the row is clicked
-                    var url = "{% url 'pewad:workrecordupdate' 0 %}";
+                    var url = "{% url 'EMPLOYD:workrecordupdate' 0 %}";
                     url = url.replace("0", t.row.data.pk);
                     loadAndOpenModal(url);
                 },

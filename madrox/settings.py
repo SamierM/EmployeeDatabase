@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'pewad.apps.PewadConfig',
+    'EMPLOYD.apps.EMPLOYDConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

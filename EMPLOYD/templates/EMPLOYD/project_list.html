@@ -1,4 +1,4 @@
-{% extends 'pewad/list.html' %}
+{% extends 'EMPLOYD/list.html' %}
 
 {% block extra-buttons %}
     <a id="createbutton" class="waves-effect waves-light btn-small" title="Create New Project">
@@ -9,7 +9,7 @@
         $(document).ready(function () {
             /* Build the table here; settings adjustments */
             $("#list-table").tabulator({
-                ajaxURL: "{% url 'pewad:projectlistdata' %}", // Load table data
+                ajaxURL: "{% url 'EMPLOYD:projectlistdata' %}", // Load table data
                 clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
                 layout: "fitDataFill", //fit columns to width of table (optional)
                 initialSort: [{ column: "fields.abbr", dir: "asc" },],
