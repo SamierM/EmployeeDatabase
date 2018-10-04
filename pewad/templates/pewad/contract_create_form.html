@@ -9,7 +9,7 @@
         <form method="POST" action="{% url 'pewad:contractcreate' %}">
             {% csrf_token %} 
             {{ form.as_p }}
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create" class="waves-effect waves-green btn-flat btn small" />
         </form>
     </div>
 </div>
