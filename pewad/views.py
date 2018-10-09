@@ -123,6 +123,21 @@ def employee_json_records(request, emp_id):
 # ------------------------------------------------------------
 # -------------------- Contract Views ------------------------
 # ------------------------------------------------------------
+class ContractCreate(SuccessMessageMixin, generic.CreateView):
+    "Create a new contract via a create contract form"
+    model = Contract
+    fields = '__all__'
+    template_name_suffix = '_create_form'
+
+    def get_success_message(self, cleaned_data):
+        return "Contract \"%s\" was added successfully." % self.object
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error: failed create')
+
 
 def contract_list(request):
     """ Display list view showing all Contracts """
