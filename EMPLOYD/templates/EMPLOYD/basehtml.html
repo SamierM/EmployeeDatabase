@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
-    {% include 'EMPLOYD/basecss.html' %} 
-    {% include 'EMPLOYD/basejs.html' %} 
+    {% include 'employd/basecss.html' %} 
+    {% include 'employd/basejs.html' %} 
     {% block head %}{% endblock %}
     <title>
         {% if debug %}DEBUG {% endif %}{% block title %}{% endblock %}
@@ -15,13 +15,13 @@
 <body>
     <nav class="purple">
         <div class="nav-wrapper">
-            <a class="brand-logo" href="{% url 'EMPLOYD:index' %}">
-                <img src="{% static 'EMPLOYD/images/mm-round.png' %}" height="30" width="30" alt="logo" style="position:relative; top:5px; margin-left:10px;"> EMPLOYD
+            <a class="brand-logo" href="{% url 'employd:index' %}">
+                <img src="{% static 'employd/images/mm-round.png' %}" height="30" width="30" alt="logo" style="position:relative; top:5px; margin-left:10px;"> employd
             </a>
             <ul id="nav" class="right">
-                <li><a class="nav-item nav-link" href="{% url 'EMPLOYD:contractlist' %}">Contracts</a></li>
-                <li><a class="nav-item nav-link" href="{% url 'EMPLOYD:projectlist' %}">Projects</a></li>
-                <li><a class="nav-item nav-link" href="{% url 'EMPLOYD:employeelist' %}">Employees</a></li>
+                <li><a class="nav-item nav-link" href="{% url 'employd:contractlist' %}">Contracts</a></li>
+                <li><a class="nav-item nav-link" href="{% url 'employd:projectlist' %}">Projects</a></li>
+                <li><a class="nav-item nav-link" href="{% url 'employd:employeelist' %}">Employees</a></li>
             </ul>
         </div>
     </nav>

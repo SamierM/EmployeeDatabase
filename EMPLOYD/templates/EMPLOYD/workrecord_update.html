@@ -6,7 +6,7 @@
         <h5>Edit Work Record</h5>
         <div class="divider"></div>
         <div class="divider"></div>
-        <form method="post" action="{% url 'EMPLOYD:workrecordupdate' view.object.pk %}">
+        <form method="post" action="{% url 'employd:workrecordupdate' view.object.pk %}">
             {% csrf_token %} 
             {{ form.as_p }}
             <button type="submit" class="waves-effect waves-yellow green lighten-2 btn-small">update</button>

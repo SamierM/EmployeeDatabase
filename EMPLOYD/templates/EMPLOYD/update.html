@@ -1,4 +1,4 @@
-{% extends 'EMPLOYD/basehtml.html' %}
+{% extends 'employd/basehtml.html' %}
 
 {% block body %}
     <div class="row">
@@ -45,13 +45,13 @@
     <script type="text/javascript">
         function workRecordRowClick(t) {
             // On row click, open a WorkRecord edit modal
-            var url = "{% url 'EMPLOYD:workrecordupdate' 0 %}";
+            var url = "{% url 'employd:workrecordupdate' 0 %}";
             url = url.replace("0", t.row.data.pk);
             loadAndOpenModal(url);
         }
 
         $("#createbutton").click(function () {
-            loadAndOpenModal("{% url 'EMPLOYD:workrecordcreate' %}");
+            loadAndOpenModal("{% url 'employd:workrecordcreate' %}");
         });
 
         $("#clipboardbutton").click(function () {

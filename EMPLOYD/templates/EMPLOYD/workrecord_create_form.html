@@ -7,7 +7,7 @@
             <h5>Create New Work Record</h5>
             <div class="divider"></div>
             <div class="divider"></div>
-            <form method="post" action="{% url 'EMPLOYD:workrecordcreate' %}">
+            <form method="post" action="{% url 'employd:workrecordcreate' %}">
                 {% csrf_token %} 
                 {{ form.as_p }}
                 <button type="submit" class="waves-effect waves-green lighten-2 btn-small">create</button>

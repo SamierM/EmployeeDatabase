@@ -24,7 +24,7 @@ class Employee(BaseModel):
         return "{self.fname} {self.lname}".format(self=self)
 
     def get_absolute_url(self):
-        return reverse('EMPLOYD:employee', kwargs={'pk': self.pk})
+        return reverse('employd:employee', kwargs={'pk': self.pk})
 
 
 class Project(BaseModel):
@@ -37,7 +37,7 @@ class Project(BaseModel):
         return "{self.name} ({self.abbr})".format(self=self)
 
     def get_absolute_url(self):
-        return reverse('EMPLOYD:project', kwargs={'pk': self.pk})
+        return reverse('employd:project', kwargs={'pk': self.pk})
 
 
 class Contract(BaseModel):
@@ -49,7 +49,7 @@ class Contract(BaseModel):
         return "{self.number} {self.name}".format(self=self)
 
     def get_absolute_url(self):
-        return reverse('EMPLOYD:contract', kwargs={'pk': self.pk})
+        return reverse('employd:contract', kwargs={'pk': self.pk})
 
 
 class WorkRecord(BaseModel):

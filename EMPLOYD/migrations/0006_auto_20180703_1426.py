@@ -7,23 +7,23 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('EMPLOYD', '0005_employee_email'),
+        ('employd', '0005_employee_email'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='workrecord',
             name='cont',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='EMPLOYD.Contract', verbose_name='Contract'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='employd.Contract', verbose_name='Contract'),
         ),
         migrations.AlterField(
             model_name='workrecord',
             name='emp',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='EMPLOYD.Employee', verbose_name='Employee'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='employd.Employee', verbose_name='Employee'),
         ),
         migrations.AlterField(
             model_name='workrecord',
             name='proj',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='EMPLOYD.Project', verbose_name='Project'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='employd.Project', verbose_name='Project'),
         ),
     ]

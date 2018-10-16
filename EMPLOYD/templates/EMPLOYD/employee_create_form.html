@@ -6,7 +6,7 @@
         <h5>Create New Employee</h5>
         <div class="divider"></div>
         <div class="divider"></div>
-        <form method="POST" action="{% url 'EMPLOYD:employeecreate' %}">
+        <form method="POST" action="{% url 'employd:employeecreate' %}">
             {% csrf_token %} 
             {{ form.as_p }}
             <input type="submit" value="Create" class="waves-effect waves-green btn-flat btn-small" />

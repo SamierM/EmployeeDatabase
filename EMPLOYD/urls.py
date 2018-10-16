@@ -1,61 +1,61 @@
 from django.urls import path
 from . import views
 
-app_name = 'EMPLOYD'
+app_name = 'employd'
 urlpatterns = [
-    # ex: /EMPLOYD/ -- List of all Work Records
+    # ex: /employd/ -- List of all Work Records
     path('', views.index, name='index'),
-    # ex: /EMPLOYD/data -- List of all Work Records (table data call)
+    # ex: /employd/data -- List of all Work Records (table data call)
     path('data', views.index_json_table_data, name='loadtable'),
-    # ex: /EMPLOYD/wr/12 -- Update a WorkRecord
+    # ex: /employd/wr/12 -- Update a WorkRecord
     path('wr/<int:pk>/', views.WorkRecordUpdateView.as_view(),
          name='workrecordupdate'),
-    # ex: /EMPLOYD/wr/create -- Create a new WorkRecord
+    # ex: /employd/wr/create -- Create a new WorkRecord
     path('wr/create', views.WorkRecordCreate.as_view(), name='workrecordcreate'),
-    # ex: /EMPLOYD/wr/delete -- Delete an existing WorkRecord
+    # ex: /employd/wr/delete -- Delete an existing WorkRecord
     path('wr/<int:pk>/delete', views.WorkRecordDelete.as_view(), name='workrecorddelete'),
 
     # ex: /lead/emailall -- Send emails to all Leads with team tasking breakdowns
     path('lead/emailall', views.email_all_leads, name='leademailall'),
 
-    # ex: /EMPLOYD/employee/list -- List of all employees
+    # ex: /employd/employee/list -- List of all employees
     path('employee/list', views.employee_list, name='employeelist'),
-    # ex: /EMPLOYD/employee/list/data -- List of all employees (table data call)
+    # ex: /employd/employee/list/data -- List of all employees (table data call)
     path('employee/list/data', views.employee_json_table_data,
          name='employeelistdata'),
-    # ex: /EMPLOYD/employee/4 -- Detail/Update view of a single employee
+    # ex: /employd/employee/4 -- Detail/Update view of a single employee
     path('employee/<int:pk>/', views.EmployeeUpdateView.as_view(), name='employee'),
-    # ex: /EMPLOYD/employee/4/records -- Detail/Update view of a single employee (table data call)
+    # ex: /employd/employee/4/records -- Detail/Update view of a single employee (table data call)
     path('employee/<int:emp_id>/records',
          views.employee_json_records, name='employeerecords'),
-    # ex: /EMPLOYD/employee/4/email -- Sends an email to the employee with a WorkRecord table
+    # ex: /employd/employee/4/email -- Sends an email to the employee with a WorkRecord table
     path('employee/<int:pk>/email',
          views.email_single_employee, name='employeeemail'),
-    # ex: /EMPLOYD/employee/emailall -- Sends emails to all employee with a WorkRecord table
+    # ex: /employd/employee/emailall -- Sends emails to all employee with a WorkRecord table
     path('employee/emailall',
          views.email_all_employees, name='employeeemailall'),
-    # ex: /EMPLOYD/employee/create -- Create a new Employee
+    # ex: /employd/employee/create -- Create a new Employee
     path('employee/create', views.EmployeeCreate.as_view(), name='employeecreate'),
 
-    # ex: /EMPLOYD/contract/list -- List of all contracts
+    # ex: /employd/contract/list -- List of all contracts
     path('contract/list', views.contract_list, name='contractlist'),
-    # ex: /EMPLOYD/contract/list/data -- List of all contracts (table data call)
+    # ex: /employd/contract/list/data -- List of all contracts (table data call)
     path('contract/list/data', views.contract_json_table_data,
          name="contractlistdata"),
-    # ex: /EMPLOYD/contract/12 -- Detail/Update view of a single contract
+    # ex: /employd/contract/12 -- Detail/Update view of a single contract
     path('contract/<int:pk>/', views.ContractUpdateView.as_view(), name='contract'),
-    # ex: /EMPLOYD/contract/12/records -- Detail/Update view of a single contract (table data call)
+    # ex: /employd/contract/12/records -- Detail/Update view of a single contract (table data call)
     path('contract/<int:pk>/records',
          views.contact_json_records, name='contractrecords'),
 
-    # ex: /EMPLOYD/project/list -- List of all projects
+    # ex: /employd/project/list -- List of all projects
     path('project/list', views.project_list, name='projectlist'),
-    # ex: /EMPLOYD/project/list/data -- List of all projects (table data call)
+    # ex: /employd/project/list/data -- List of all projects (table data call)
     path('project/list/data', views.project_json_table_data,
          name="projectlistdata"),
-    # ex: /EMPLOYD/project/12 -- Detail/Update view of a single project
+    # ex: /employd/project/12 -- Detail/Update view of a single project
     path('project/<int:pk>/', views.ProjectUpdateView.as_view(), name='project'),
-    # ex: /EMPLOYD/project/12/records -- Detail/Update view of a single project (table data call)
+    # ex: /employd/project/12/records -- Detail/Update view of a single project (table data call)
     path('project/<int:pk>/records',
          views.contact_json_records, name='projectrecords'),
 ]

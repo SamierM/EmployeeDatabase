@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import WorkRecord, Contract, Project, Employee
 
-admin.site.site_header = "EMPLOYD Administration"
-admin.site.site_url = "/EMPLOYD/"
+admin.site.site_header = "employd Administration"
+admin.site.site_url = "/employd/"
 
 
 class WorkRecordAdmin(admin.ModelAdmin):
