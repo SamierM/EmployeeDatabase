@@ -1,3 +1,4 @@
+{% load materializecss %}
 <div class="modal" id="modal">
     <div class="modal-content">
         <button href="#!" class="modal-close waves-effect waves-green btn-flat btn-small right">
@@ -7,9 +8,20 @@
         <div class="divider"></div>
         <div class="divider"></div>
         <form method="post" action="{% url 'pewad:workrecordupdate' view.object.pk %}">
-            {% csrf_token %} 
-            {{ form.as_p }}
-            <button type="submit" class="waves-effect waves-yellow green lighten-2 btn-small">update</button>
+            <div class="row">
+                {% csrf_token %}
+                {{ form | materializecss:'s6' }}
+                <div class="col s6 left-align">
+                    <button type="submit" class="waves-effect waves-yellow green lighten-2 btn-small">
+                        <i class="material-icons left">save</i>update
+                    </button>
+                </div>
+                <div class="col s6 right-align">
+                    <button type="button" class="waves-effect waves-darken btn-small red disabled">
+                        <i class="material-icons left">delete</i>delete
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

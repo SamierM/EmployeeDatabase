@@ -124,7 +124,7 @@ def employee_json_records(request, emp_id):
 # -------------------- Contract Views ------------------------
 # ------------------------------------------------------------
 class ContractCreate(SuccessMessageMixin, generic.CreateView):
-    """ Create a new Employee """
+    "Create a new contract via a create contract form"
     model = Contract
     fields = '__all__'
     template_name_suffix = '_create_form'
@@ -137,6 +137,7 @@ class ContractCreate(SuccessMessageMixin, generic.CreateView):
 
     def form_invalid(self, form):
         messages.error(self.request, 'Error: failed create')
+
 
 def contract_list(request):
     """ Display list view showing all Contracts """
@@ -170,6 +171,8 @@ def contact_json_records(request, pk):
 # ------------------------------------------------------------
 # -------------------- Project Views -------------------------
 # ------------------------------------------------------------
+
+
 class ProjectCreate(SuccessMessageMixin, generic.CreateView):
     """ Create a new Project """
     model = Project
@@ -184,6 +187,7 @@ class ProjectCreate(SuccessMessageMixin, generic.CreateView):
 
     def form_invalid(self, form):
         messages.error(self.request, 'Error: failed create')
+
 
 def project_list(request):
     """ Display list view showing all Projects """

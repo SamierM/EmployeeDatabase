@@ -1,31 +1,31 @@
 {% extends 'pewad/list.html' %}
 
 {% block extra-buttons %}
-    <a id="createbutton" class="waves-effect waves-light btn-small" title="Create New Contract">
-        <i class="material-icons left">note_add</i>Create New Contract</a>
+<a id="createbutton" class="waves-effect waves-light btn-small" title="Create New Contract">
+    <i class="material-icons left">note_add</i>Create New Contract</a>
 {% endblock extra-buttons %}
 {% block table-script %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            /* Build the table here; settings adjustments */
-            $("#list-table").tabulator({
-                ajaxURL: "{% url 'pewad:contractlistdata' %}", // Load table data
-                clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
-                layout: "fitDataFill", //fit columns to width of table (optional)
-                columns: [ //Define Table Columns
-                    { title: "ID", field: "pk", sorter: "number" },
-                    { title: "Name", field: "fields.name", sorter: "string" },
-                    { title: "Number", field: "fields.number", sorter: "number" },
-                ],
-                rowClick: function (e, id) {
-                    location.href = id.row.data.pk;
-                },
-            });
+<script type="text/javascript">
+    $(document).ready(function () {
+        /* Build the table here; settings adjustments */
+        $("#list-table").tabulator({
+            ajaxURL: "{% url 'pewad:contractlistdata' %}", // Load table data
+            clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
+            layout: "fitDataFill", //fit columns to width of table (optional)
+            columns: [ //Define Table Columns
+                { title: "ID", field: "pk", sorter: "number" },
+                { title: "Name", field: "fields.name", sorter: "string" },
+                { title: "Number", field: "fields.number", sorter: "number" },
+            ],
+            rowClick: function (e, id) {
+                location.href = id.row.data.pk;
+            },
         });
+    });
 
-        $("#createbutton").click(function(){
-            var url = "{% url 'pewad:contractcreate' %}"
-            loadAndOpenModal(url);
-        });
-    </script>
+    $("#createbutton").click(function () {
+        var url = "{% url 'pewad:contractcreate' %}"
+        loadAndOpenModal(url);
+    });
+</script>
 {% endblock table-script %}
