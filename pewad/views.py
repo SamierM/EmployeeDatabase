@@ -173,6 +173,22 @@ def contact_json_records(request, pk):
 # ------------------------------------------------------------
 
 
+class ProjectCreate(SuccessMessageMixin, generic.CreateView):
+    """ Create a new Project """
+    model = Project
+    fields = '__all__'
+    template_name_suffix = '_create_form'
+
+    def get_success_message(self, cleaned_data):
+        return "Project \"%s\" was added successfully." % self.object
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error: failed create')
+
+
 def project_list(request):
     """ Display list view showing all Projects """
 

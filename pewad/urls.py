@@ -13,7 +13,8 @@ urlpatterns = [
     # ex: /pewad/wr/create -- Create a new WorkRecord
     path('wr/create', views.WorkRecordCreate.as_view(), name='workrecordcreate'),
     # ex: /pewad/wr/delete -- Delete an existing WorkRecord
-    path('wr/<int:pk>/delete', views.WorkRecordDelete.as_view(), name='workrecorddelete'),
+    path('wr/<int:pk>/delete', views.WorkRecordDelete.as_view(),
+         name='workrecorddelete'),
 
     # ex: /lead/emailall -- Send emails to all Leads with team tasking breakdowns
     path('lead/emailall', views.email_all_leads, name='leademailall'),
@@ -60,4 +61,6 @@ urlpatterns = [
     # ex: /pewad/project/12/records -- Detail/Update view of a single project (table data call)
     path('project/<int:pk>/records',
          views.contact_json_records, name='projectrecords'),
+    # ex: /pewad/project/create -- Create a new Project
+    path('project/create', views.ProjectCreate.as_view(), name='projectcreate'),
 ]

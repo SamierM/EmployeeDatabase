@@ -1,3 +1,4 @@
+{% load materializecss %}
 <div class="modal" id="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -8,9 +9,11 @@
             <div class="divider"></div>
             <div class="divider"></div>
             <form method="post" action="{% url 'pewad:workrecordcreate' %}">
-                {% csrf_token %} 
-                {{ form.as_p }}
-                <button type="submit" class="waves-effect waves-green lighten-2 btn-small">create</button>
+                <div class="row">
+                    {% csrf_token %}
+                    {{ form | materializecss }}
+                    <button type="submit" class="waves-effect waves-green lighten-2 btn-small">create</button>
+                </div>
             </form>
         </div>
     </div>
