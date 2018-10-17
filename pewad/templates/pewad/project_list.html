@@ -23,5 +23,10 @@
                 },
             });
         });
+
+        $("#createbutton").click(function () {
+            var url = "{% url 'pewad:projectcreate' %}"
+            loadAndOpenModal(url);
+        });
     </script>
 {% endblock table-script %}
