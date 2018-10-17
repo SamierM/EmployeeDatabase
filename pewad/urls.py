@@ -61,6 +61,6 @@ urlpatterns = [
     # ex: /pewad/project/12/records -- Detail/Update view of a single project (table data call)
     path('project/<int:pk>/records',
          views.contact_json_records, name='projectrecords'),
-    # ex: /pewad/project/create -- Create a new Employee
+    # ex: /pewad/project/create -- Create a new Project
     path('project/create', views.ProjectCreate.as_view(), name='projectcreate'),
 ]
