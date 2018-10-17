@@ -12,6 +12,7 @@
             ajaxURL: "{% url 'pewad:contractlistdata' %}", // Load table data
             clipboard: true, // Enable copy table to clipboard; helpful for paste to Excel
             layout: "fitDataFill", //fit columns to width of table (optional)
+            initialSort: [{column: "fields.name", dir: "asc"},],
             columns: [ //Define Table Columns
                 { title: "ID", field: "pk", sorter: "number" },
                 { title: "Name", field: "fields.name", sorter: "string" },
