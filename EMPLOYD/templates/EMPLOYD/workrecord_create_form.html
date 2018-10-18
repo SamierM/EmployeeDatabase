@@ -1,3 +1,4 @@
+{% load materializecss %}
 <div class="modal" id="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -7,10 +8,19 @@
             <h5>Create New Work Record</h5>
             <div class="divider"></div>
             <div class="divider"></div>
+<<<<<<< HEAD:EMPLOYD/templates/EMPLOYD/workrecord_create_form.html
             <form method="post" action="{% url 'employd:workrecordcreate' %}">
                 {% csrf_token %} 
                 {{ form.as_p }}
                 <button type="submit" class="waves-effect waves-green lighten-2 btn-small">create</button>
+=======
+            <form method="post" action="{% url 'pewad:workrecordcreate' %}">
+                <div class="row">
+                    {% csrf_token %}
+                    {{ form | materializecss }}
+                    <button type="submit" class="waves-effect waves-green lighten-2 btn-small">create</button>
+                </div>
+>>>>>>> 61757ad75744f2621691834348b16edca1a4ca61:pewad/templates/pewad/workrecord_create_form.html
             </form>
         </div>
     </div>

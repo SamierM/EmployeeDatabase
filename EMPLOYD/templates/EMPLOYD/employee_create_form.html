@@ -1,3 +1,4 @@
+{% load materializecss %}
 <div class="modal bottom-sheet" id="modal">
     <div class="modal-content">
         <a href="#!" class="modal-close waves-effect waves-green btn-flat btn-small right">
@@ -6,10 +7,19 @@
         <h5>Create New Employee</h5>
         <div class="divider"></div>
         <div class="divider"></div>
+<<<<<<< HEAD:EMPLOYD/templates/EMPLOYD/employee_create_form.html
         <form method="POST" action="{% url 'employd:employeecreate' %}">
             {% csrf_token %} 
             {{ form.as_p }}
             <input type="submit" value="Create" class="waves-effect waves-green btn-flat btn-small" />
+=======
+        <form method="POST" action="{% url 'pewad:employeecreate' %}">
+            <div class="row">
+                {% csrf_token %}
+                {{ form | materializecss }}
+                <input type="submit" value="Create" class="waves-effect waves-green btn-flat btn-small" />
+            </div>
+>>>>>>> 61757ad75744f2621691834348b16edca1a4ca61:pewad/templates/pewad/employee_create_form.html
         </form>
     </div>
 </div>

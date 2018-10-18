@@ -12,8 +12,14 @@ urlpatterns = [
          name='workrecordupdate'),
     # ex: /employd/wr/create -- Create a new WorkRecord
     path('wr/create', views.WorkRecordCreate.as_view(), name='workrecordcreate'),
+<<<<<<< HEAD:EMPLOYD/urls.py
     # ex: /employd/wr/delete -- Delete an existing WorkRecord
     path('wr/<int:pk>/delete', views.WorkRecordDelete.as_view(), name='workrecorddelete'),
+=======
+    # ex: /pewad/wr/delete -- Delete an existing WorkRecord
+    path('wr/<int:pk>/delete', views.WorkRecordDelete.as_view(),
+         name='workrecorddelete'),
+>>>>>>> 61757ad75744f2621691834348b16edca1a4ca61:pewad/urls.py
 
     # ex: /lead/emailall -- Send emails to all Leads with team tasking breakdowns
     path('lead/emailall', views.email_all_leads, name='leademailall'),
@@ -47,6 +53,8 @@ urlpatterns = [
     # ex: /employd/contract/12/records -- Detail/Update view of a single contract (table data call)
     path('contract/<int:pk>/records',
          views.contact_json_records, name='contractrecords'),
+    # ex: pewad/contract/create -- Create a new Contract Listing
+    path('contract/create', views.ContractCreate.as_view(), name='contractcreate'),
 
     # ex: /employd/project/list -- List of all projects
     path('project/list', views.project_list, name='projectlist'),
@@ -58,4 +66,6 @@ urlpatterns = [
     # ex: /employd/project/12/records -- Detail/Update view of a single project (table data call)
     path('project/<int:pk>/records',
          views.contact_json_records, name='projectrecords'),
+    # ex: /pewad/project/create -- Create a new Project
+    path('project/create', views.ProjectCreate.as_view(), name='projectcreate'),
 ]
